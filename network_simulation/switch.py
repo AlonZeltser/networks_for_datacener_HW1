@@ -5,8 +5,8 @@ from typing import Dict, Tuple
 
 class Switch(NetworkNode):
 
-    def __init__(self, name: str, scheduler):
-        super().__init__(name, scheduler)
+    def __init__(self, name: str, ports_count, scheduler):
+        super().__init__(name, ports_count, scheduler)
 
 
     def on_message(self, message):

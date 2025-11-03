@@ -10,7 +10,7 @@ flow_ids = itertools.count(1)
 
 class Host(NetworkNode):
     def __init__(self, name: str, scheduler: DiscreteEventSimulator):
-        super().__init__(name, scheduler)
+        super().__init__(name, 1, scheduler)
 
     def send_to(self, dst_name: str, payload: bytes, size_bytes=1500) -> None:
         assert dst_name in self.forward_table

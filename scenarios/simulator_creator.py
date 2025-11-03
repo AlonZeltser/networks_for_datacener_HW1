@@ -20,8 +20,8 @@ class SimulatorCreator(ABC):
         h = Host(name, self.simulator)
         self.entities[name] = h
         return h
-    def create_switch(self, name:str) -> Switch:
-        s = Switch(name, self.simulator)
+    def create_switch(self, name:str, ports_count:int) -> Switch:
+        s = Switch(name, ports_count, self.simulator)
         self.entities[name] = s
         return s
     def create_link(self, name:str, bandwidth:float, delay:float) -> Link:
