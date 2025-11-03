@@ -3,6 +3,10 @@ from scenarios.simulator_creator import SimulatorCreator
 
 
 class HSHCreator(SimulatorCreator):
+    def __init__(self, **viz_options):
+        super().__init__(**viz_options)
+
+
     def create_topology(self):
         h1 = self.create_host('Host1')
         h2 = self. create_host('Host2')

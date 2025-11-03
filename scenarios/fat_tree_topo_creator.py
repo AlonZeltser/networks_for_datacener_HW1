@@ -3,8 +3,12 @@ from scenarios.simulator_creator import SimulatorCreator
 
 class FatTreeTopoCreator(SimulatorCreator):
 
-    def __init__(self, k):
-        super().__init__()
+    def __init__(self, k, **viz_options):
+        """k: number of ports per switch. Accepts optional visualization keyword args which are forwarded
+        to SimulatorCreator (e.g. visualize=True, visualize_before_run=True, visualize_save_path=...)
+        """
+        # forward visualization-related kwargs to the base class
+        super().__init__(**viz_options)
         assert k >= 1
         assert k % 2 == 0
         self.k = k  # Number of ports per switch
@@ -71,12 +75,20 @@ class FatTreeTopoCreator(SimulatorCreator):
                 s_agg.assert_correctly_full()
 
 
+
+
         # print counts per layer and servers
         print(f"Fat-tree (k={self.k}) topology summary:")
         print(f"  Core switches: {core_switches_count}")
         print(f"  Aggregation switches: {total_agg_switches} ({agg_switches_per_pod} per pod)")
         print(f"  Edge switches: {total_edge_switches} ({edge_switches_per_pod} per pod)")
         print(f"  Servers (hosts): {total_hosts} ({hosts_per_edge_switch} per edge switch)")
+
+        # Optionally visualize topology (show and save according to SimulatorCreator config)
+        if getattr(self, '_visualize', False):
+            self.visualize_topology(show=getattr(self, '_visualize_show', True),
+                                    save=getattr(self, '_visualize_save', True),
+                                    path=getattr(self, '_visualize_save_path', None))
 
     def create_scenario(self):
         pass
