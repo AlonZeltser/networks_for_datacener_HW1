@@ -16,8 +16,8 @@ def fat_tree_simulation():
 
 
 def main():
-    #fat_tree_simulation()
-    hsh_simulation()
+    fat_tree_simulation()
+    #hsh_simulation()
 
 
 if __name__ == '__main__':
