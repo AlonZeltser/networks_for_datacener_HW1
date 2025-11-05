@@ -26,9 +26,19 @@ This is a temporal submission, not all functionality is implemented, fully teste
 
 ## ⚙️ Implementation Approach
 **Language:** Python 3.9  
-**Framework:** My own event-driven simulator
-**Alternatives:** Using external simulation libraries such as mininet. Eventually I choose to implement my own for the learning process.
-**Other Considerations**: I chose to use an Object-Oriented modeling for the system, where each object acts similarly to its real-world behavior.
+**Framework:** My own event-driven simulator  
+**Alternatives:** Using external simulation libraries such as mininet. Eventually I choose to implement my own for the learning process.  
+**Other Considerations**: I chose to use an Object-Oriented modeling for the system, where each object acts similarly to its real-world behavior.  
+
+## AI Usage
+**I developed and coded the project by myself, yet was assisted by Gen AI tools as follows:**  
+- Choosing DSE Design Pattern (over usage of mininet), pattern exploration: ChatGPT5    
+- Python ongoing hints features exploration: ChatGPT5  
+- Typo corrections finding: Github Copilot (GPT-5 mini)  
+- Readme.md: hyper-text syntax, common readme structuring: ChatGPT5, Copilot  (GPT-5 mini)
+- Visualizations: pakages selection, implementation hints and examples: github Copilot (GPT-5 mini, Claude Sonnet 3.5)
+
+ChatGPT doumentation will be published as part of final submission.
 
 ### Architecture Summary
 | Real life Component  | Responsibility                                                                |
