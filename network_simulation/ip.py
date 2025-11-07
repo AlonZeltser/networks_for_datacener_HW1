@@ -56,18 +56,6 @@ class IPAddress:
         d = value & 0xFF
         return cls((a, b, c, d))
 
-    # Helpers convenient for fat-tree addressing (10.pod.edge.host)
-    @property
-    def pod(self) -> int:
-        return self.octets[1]
-
-    @property
-    def edge(self) -> int:
-        return self.octets[2]
-
-    @property
-    def host(self) -> int:
-        return self.octets[3]
 
 
 @dataclass(frozen=True)
@@ -109,4 +97,3 @@ class IPPrefix:
 
     def __str__(self) -> str:
         return f"{self.network}/{self.prefix_len}"
-

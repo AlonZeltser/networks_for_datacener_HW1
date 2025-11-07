@@ -1,8 +1,8 @@
 from typing import Optional
 
-from network_simulation.node import Node
 from des.des import DiscreteEventSimulator
 from network_simulation.message import Message
+from network_simulation.node import Node
 
 
 class Link:
@@ -13,8 +13,8 @@ class Link:
         self.bandwidth_bps = bandwidth_bps
         self.propagation_time = propagation_time
         self.next_available_time = [0.0, 0.0]  # in seconds, full duplex link
-        self.node1:Optional[Node] = None
-        self.node2:Optional[Node] = None
+        self.node1: Optional[Node] = None
+        self.node2: Optional[Node] = None
 
     def connect(self, node: Node) -> None:
         if self.node1 is None:
@@ -38,5 +38,5 @@ class Link:
         def deliver():
             dst.post(message)
 
-        #at arrival nominal time, the message will be posted on the destination Host / Switch
+        # at arrival nominal time, the message will be posted on the destination Host / Switch
         self.scheduler.schedule_event(arrival_time - now, deliver)

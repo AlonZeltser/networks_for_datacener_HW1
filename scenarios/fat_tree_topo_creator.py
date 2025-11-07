@@ -1,4 +1,4 @@
-from scenarios.simulator_creator import SimulatorCreator
+from network_simulation.simulator_creator import SimulatorCreator
 
 
 class FatTreeTopoCreator(SimulatorCreator):
@@ -23,7 +23,6 @@ class FatTreeTopoCreator(SimulatorCreator):
         total_edge_switches = pods_count * edge_switches_per_pod
         hosts_per_edge_switch = self.k // 2
         total_hosts = total_edge_switches * hosts_per_edge_switch
-
 
         for pod in range(pods_count):
             for edge in range(edge_switches_per_pod):
@@ -56,7 +55,7 @@ class FatTreeTopoCreator(SimulatorCreator):
             core_switch_name = f'core_switch_c{core}'
             s_core = self.create_switch(core_switch_name, self.k)
             aggregation_start_port = 1 + edge_switches_per_pod
-            port_in_aggregation = aggregation_start_port + core % (self.k//2)
+            port_in_aggregation = aggregation_start_port + core % (self.k // 2)
             aggregation_switch_in_pod = core // (self.k // 2)
             for pod in range(pods_count):
                 agg_switch_name = f'agg_switch_p{pod}_a{aggregation_switch_in_pod}'
@@ -74,21 +73,12 @@ class FatTreeTopoCreator(SimulatorCreator):
                 s_agg = self.get_entity(agg_switch_name)
                 s_agg.assert_correctly_full()
 
-
-
-
         # print counts per layer and servers
         print(f"Fat-tree (k={self.k}) topology summary:")
         print(f"  Core switches: {core_switches_count}")
         print(f"  Aggregation switches: {total_agg_switches} ({agg_switches_per_pod} per pod)")
         print(f"  Edge switches: {total_edge_switches} ({edge_switches_per_pod} per pod)")
         print(f"  Servers (hosts): {total_hosts} ({hosts_per_edge_switch} per edge switch)")
-
-        # Optionally visualize topology (show and save according to SimulatorCreator config)
-        if getattr(self, '_visualize', False):
-            self.visualize_topology(show=getattr(self, '_visualize_show', True),
-                                    save=getattr(self, '_visualize_save', True),
-                                    path=getattr(self, '_visualize_save_path', None))
 
     def create_scenario(self):
         pass

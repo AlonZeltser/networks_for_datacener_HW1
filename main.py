@@ -10,7 +10,7 @@ def hsh_simulation():
 
 def fat_tree_simulation():
     # enable visualization: show the plot and save it to a file
-    fts = FatTreeTopoCreator(k=4, visualize=True, visualize_before_run=False, visualize_show=True, visualize_save=True)
+    fts = FatTreeTopoCreator(k=4, visualize=True, visualize_show=True, visualize_save=True)
     simulator = fts.create_simulator()
     simulator.run()
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class Protocol(Enum):
@@ -24,7 +24,7 @@ class Message:
     sender_id: str
     receiver_id: str
     flow_id: int
-    five_tuple: FiveTuple
+    five_tuple: Optional[FiveTuple]
     size_bytes: int
     brith_time: float
     content: Any

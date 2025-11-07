@@ -39,7 +39,7 @@ class DiscreteEventSimulator:
                 self.current_time = until
                 print("Simulation time advanced to", until)
                 break
-            #this is the earliest event to process
+            # this is the earliest event to process
             self.current_time = event.time
             event.action()
 

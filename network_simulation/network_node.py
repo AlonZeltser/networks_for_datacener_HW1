@@ -1,21 +1,21 @@
 from abc import ABC
-from typing import Dict, Tuple
+from typing import Dict
 
-from network_simulation.node import Node
 from des.des import DiscreteEventSimulator
 from network_simulation.link import Link
 from network_simulation.message import Message
+from network_simulation.node import Node
 
 
 class NetworkNode(Node, ABC):
-    def __init__(self, name: str, max_connections:int, scheduler: DiscreteEventSimulator):
+    def __init__(self, name: str, max_connections: int, scheduler: DiscreteEventSimulator):
         super().__init__(name, scheduler)
         self.ports_to_links: Dict[int, Link] = {}  # mapping from port identifier to link
         self.forward_table: Dict[str, int] = {}  # mapping from receiver_id to port identifier
         self.max_connections = max_connections
 
-    #port_id starts from 1
-    def connect(self, port_id:int, link:Link):
+    # port_id starts from 1
+    def connect(self, port_id: int, link: Link):
         assert port_id not in self.ports_to_links
         assert port_id <= self.max_connections
         assert self.connections_count() < self.max_connections
@@ -30,8 +30,8 @@ class NetworkNode(Node, ABC):
         for port in range(1, self.max_connections + 1):
             assert port in self.ports_to_links
 
-    def set_routing(self, receiver_id:str, port_id:int):
-            self.forward_table[receiver_id] = port_id
+    def set_routing(self, receiver_id: str, port_id: int):
+        self.forward_table[receiver_id] = port_id
 
     # send a message to dst Host or Switch, via the given Link
     def _internal_send(self, message: Message, port_id: int) -> None:

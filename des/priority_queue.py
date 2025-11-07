@@ -23,11 +23,11 @@ class MinValuePriorityQueue:
                 return item
         """
 
-        #heap_times = [ _get_time(it) for it in self._heap ]
+        # heap_times = [ _get_time(it) for it in self._heap ]
         result = heapq.heappop(self._heap)
-        #selected_time = _get_time(result)
-        #print("heap times:", heap_times)
-        #print("selected time:", selected_time)
+        # selected_time = _get_time(result)
+        # print("heap times:", heap_times)
+        # print("selected time:", selected_time)
         return result
 
     def peek(self) -> Any:
