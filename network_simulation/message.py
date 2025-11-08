@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
-
+import xxhash
 
 class Protocol(Enum):
     TCP = 1
@@ -13,9 +13,14 @@ class Protocol(Enum):
 class FiveTuple:
     src_ip: str
     dst_ip: str
-    src_port: int
-    dst_port: int
+    src_protocol_port: int
+    dst_protocol_port: int
     protocol: Protocol
+    def __str__(self) -> str:
+        return (f"{self.src_ip}:{self.src_protocol_port} -> "
+                f"{self.dst_ip}:{self.dst_protocol_port} ({self.protocol.name})")
+    def __hash__(self) -> int:
+        return xxhash.xxh64(str(self)).intdigest()
 
 
 @dataclass

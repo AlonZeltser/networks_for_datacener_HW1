@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Tuple
+from typing import Any, Optional, Tuple, Dict
 
 from des.des import DiscreteEventSimulator
 from network_simulation.host import Host
@@ -26,7 +26,8 @@ class SimulatorCreator(ABC):
         - visualize_spacing: multiplier controlling how far apart nodes are placed horizontally (default 2.0)
         """
         self.simulator = DiscreteEventSimulator()
-        self.entities = {}
+        self.entities: Dict[str, Any] = {}
+        self.hosts: Dict[str, Host] = {}
         self._visualize = visualize
         self._visualize_show = visualize_show
         self._visualize_save = visualize_save
@@ -51,19 +52,23 @@ class SimulatorCreator(ABC):
 
         return self.simulator
 
-    def create_host(self, name: str, ip_address: Optional[IPAddress] = None) -> Host:
-        h = Host(name, self.simulator)
+    def create_host(self, name: str, ip_address: str) -> Host:
+        h = Host(name, self.simulator, ip_address)
+        assert name not in self.entities and name not in self.hosts
         self.entities[name] = h
+        self.hosts[name] = h
         return h
 
     def create_switch(self, name: str, ports_count: int) -> Switch:
         """Create a switch with the given number of ports."""
         s = Switch(name, ports_count, self.simulator)
+        assert name not in self.entities
         self.entities[name] = s
         return s
 
-    def create_link(self, name: str, bandwidth: float, delay: float) -> Link:
+    def create_link(self, name: str, bandwidth: float = 1e6, delay: float = 1e-3) -> Link:
         l = Link(name, self.simulator, bandwidth, delay)
+        assert name not in self.entities
         self.entities[name] = l
         return l
 

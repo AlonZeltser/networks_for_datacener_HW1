@@ -154,10 +154,12 @@ def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, s
         else:
             labels[n] = n
 
+    """
     if host_ip_list:
         print("Hosts and IP addresses:")
         for hn, hip in host_ip_list:
             print(f"  {hn}: {hip if hip else '<no IP>'}")
+    """
 
     # draw nodes and edges first (without labels), then draw our custom labels so IPs appear
     nx.draw(G, pos, with_labels=False, node_color=colors, node_size=sizes)
@@ -167,11 +169,7 @@ def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, s
     # increase offset to place labels further away from node markers so they are readable
     # positions are normalized (0..1), use a larger offset
     y_offset = 0.06 * max(1.0, spacing)
-    sample = list(labels.items())[:10]
-    if sample:
-        print("Sample node labels to be drawn:")
-        for k, v in sample:
-            print(f"  {k}: {v}")
+
     for node, lab in labels.items():
         # draw labels for each node: hosts get their name and IP, switches get simple labels
         x, y = pos.get(node, (0.5, 0.5))
@@ -218,12 +216,12 @@ def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, s
     if save:
         if path is None:
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            path = f"topology_{name}_{timestamp}.png"
+            path = f"results/topology_{name}_{timestamp}.png"
         plt.savefig(path, bbox_inches='tight')
         saved_path = path
         print(f"Topology saved to {path}")
         # Also save host -> IP mapping next to the PNG for easy inspection
-        if host_ip_list:
+        if host_ip_list and False:
             try:
                 hosts_path = os.path.splitext(path)[0] + "_hosts.txt"
                 with open(hosts_path, 'w', encoding='utf-8') as fh:
