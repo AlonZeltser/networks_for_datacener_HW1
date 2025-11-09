@@ -13,6 +13,7 @@ class Node(ABC):
 
     # called by others, to make this actor receive a message
     def post(self, message: Message) -> None:
+        message.path.append(self.name)
         self.inbox.append(message)
         self.scheduler.schedule_event(0.0, self.handle_message)
 

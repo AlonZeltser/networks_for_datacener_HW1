@@ -1,6 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, List
 import xxhash
 
 class Protocol(Enum):
@@ -27,13 +27,15 @@ class FiveTuple:
 class Message:
     id: int
     sender_id: str
-    receiver_id: str
-    flow_id: int
     five_tuple: Optional[FiveTuple]
     size_bytes: int
     brith_time: float
     content: Any
     ttl: int = 64
+    path: List[str] = field(default_factory=list)
+    delivered: bool = False
+    dropped: bool = False
+    lost: bool = False
 
-    def is_expired(self, current_time: float) -> bool:
-        return (current_time - self.brith_time) > self.ttl
+    def is_expired(self, current_time: float, max_path: int) -> bool:
+        return (current_time - self.brith_time) > self.ttl or len(self.path) > max_path

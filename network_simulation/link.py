@@ -15,6 +15,8 @@ class Link:
         self.next_available_time = [0.0, 0.0]  # in seconds, full duplex link
         self.node1: Optional[Node] = None
         self.node2: Optional[Node] = None
+        # whether this link is failed (physically down). Default: False
+        self.failed: bool = False
 
     def connect(self, node: Node) -> None:
         if self.node1 is None:
@@ -26,6 +28,7 @@ class Link:
 
     def transmit(self, message: Message, sender: Node) -> None:
         assert self.node1 is not None and self.node2 is not None and (sender == self.node1 or sender == self.node2)
+        assert not self.failed
         dst = self.node2 if sender == self.node1 else self.node1
         link_index = 0 if sender == self.node1 else 1
         now = self.scheduler.get_current_time()

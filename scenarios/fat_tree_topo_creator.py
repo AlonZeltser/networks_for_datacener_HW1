@@ -10,12 +10,8 @@ from network_simulation.switch import Switch
 
 class FatTreeTopoCreator(SimulatorCreator):
 
-    def __init__(self, k, **viz_options):
-        """k: number of ports per switch. Accepts optional visualization keyword args which are forwarded
-        to SimulatorCreator (e.g. visualize=True, visualize_before_run=True, visualize_save_path=...)
-        """
-        # forward visualization-related kwargs to the base class
-        super().__init__(**viz_options)
+    def __init__(self, k:int, visualize:bool, max_path:int, link_failure_percent:float=0.0):
+        super().__init__("fat tree", max_path, visualize, link_failure_percent=link_failure_percent)
         assert k >= 1
         assert k % 2 == 0
         self.k = k  # Number of ports per switch
@@ -150,7 +146,7 @@ class FatTreeTopoCreator(SimulatorCreator):
         all_other_host_names = [name for name in self.hosts.keys() if name != host.name]
         if not all_other_host_names:
             return
-        num_messages = 100
+        num_messages = 2
         for _ in range(num_messages):
             dst_host_name = random.choice(all_other_host_names)
             logging.info(f"Creating host traffic from {host.name} to {dst_host_name}")

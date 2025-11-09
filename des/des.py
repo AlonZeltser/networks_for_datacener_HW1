@@ -16,11 +16,11 @@ class DESEvent:
 
 class DiscreteEventSimulator:
 
-    def __init__(self, seed: int = 2908):
+    def __init__(self):
         self.current_time = 0.0
         self.event_queue: MinValuePriorityQueue = MinValuePriorityQueue()
         self.seq_counter = itertools.count()
-        self.random_generator = random.Random(seed)
+        self.messages = []
 
     def schedule_event(self, delay: float, action: Callable[[], None]) -> None:
         """Schedule an event to occur after a certain delay."""

@@ -2,8 +2,8 @@ from network_simulation.simulator_creator import SimulatorCreator
 
 
 class HSHCreator(SimulatorCreator):
-    def __init__(self, **viz_options):
-        super().__init__(**viz_options)
+    def __init__(self, visualize:bool, max_path:int, link_failure_percent:float=0.0):
+        super().__init__("hsh", max_path, visualize, link_failure_percent=link_failure_percent)
 
     def create_topology(self):
         h1 = self.create_host('Host1', "10.1.1.1")
@@ -18,12 +18,6 @@ class HSHCreator(SimulatorCreator):
         h2.connect(1, l2)
         s1.connect(1, l1)
         s1.connect(2, l2)
-
-        # routing table entries of each host / switch
-        #h1.set_routing('Host2', 1)
-        #h2.set_routing('Host1', 1)
-        #s1.set_routing('Host2', 2)
-        #s1.set_routing('Host1', 1)
 
         h1.set_ip_routing("10.0.0.0/8", 1)
         h2.set_ip_routing("10.0.0.0/8", 1)
@@ -46,9 +40,9 @@ class HSHCreator(SimulatorCreator):
             h2 = self.get_entity('Host2')
             h2.send_to_ip('10.1.1.1', 'here again, Host1!', size_bytes=10000)
 
-        for i in range(0, 1000):
+        for i in range(0, 10):
             self.simulator.schedule_event(i / 10.0, e1)
             self.simulator.schedule_event(i, e2)
-        for i in range(0, 2000):
+        for i in range(0, 10):
             self.simulator.schedule_event(i / 10.0, e1)
             self.simulator.schedule_event(i, e2)

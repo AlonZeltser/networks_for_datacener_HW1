@@ -13,13 +13,8 @@ flow_ids = itertools.count(1)
 
 
 class Host(NetworkNode):
-    def __init__(self, name: str, scheduler: DiscreteEventSimulator, ip_address: str):
-        super().__init__(name, 1, scheduler)
-
-        # Assign IP according to Fat-Tree scheme (Al-Fares style): 10.<pod>.<edge>.<host>
-        # Assumption: pods/edge/host indices in names start at 0 in this codebase, so add +1
-        # to move to more conventional non-zero octets: 10.(pod+1).(edge+1).(host+1)
-        # Host names follow the pattern: 'host_p{pod}_e{edge}_h{host}'
+    def __init__(self, name: str, scheduler: DiscreteEventSimulator, ip_address: str, max_path: int):
+        super().__init__(name, 1, scheduler, max_path)
         self._ip_address: str = ip_address
 
     @property
@@ -31,14 +26,15 @@ class Host(NetworkNode):
 
         message = Message(id=packet_id,
                           sender_id=self.name,
-                          receiver_id="",
-                          flow_id="",
                           five_tuple= FiveTuple(self.ip_address, dst_ip_address, 0, 0, Protocol.TCP),
                           size_bytes=size_bytes,
                           brith_time=self.scheduler.get_current_time(),
                           content=payload)
+        message.path.append(self.name)
+        self.scheduler.messages.append(message)
         self._internal_send_ip(message)
 
     def on_message(self, message: Message):
+        message.delivered = True
         logging.info(f"Received message: {message}"
             f"[{self.scheduler.get_current_time():.6f}s] Host {self.name} received message {message.id} from {message.sender_id} with content: {message.content}")

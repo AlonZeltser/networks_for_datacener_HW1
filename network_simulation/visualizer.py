@@ -1,21 +1,40 @@
 import datetime
+import logging
 import os
-from typing import Optional, Dict, Any, Tuple
+from typing import Optional, Dict, Any
 
 
-def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, save: bool = True,
-                       path: Optional[str] = None, spacing: float = 2.0,
-                       figsize: Optional[Tuple[float, float]] = None) -> Optional[str]:
+def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float = 2.0) -> Optional[str]:
     """Create a visualization of the topology using networkx + matplotlib if available.
 
     Returns the path to the saved file if saved, otherwise None.
     """
-    # Lazy import so visualization is optional
+    # Lazy import so visualization is optional. When suppression requested, reduce logging noise
+    _logging = None
+    _prev_levels = {}
+    noisy_loggers = ['matplotlib', 'PIL', 'pillow', 'networkx', 'pyparsing', 'pydot', 'pydotplus', 'graphviz']
     try:
+        import logging as _logging
+        for lname in noisy_loggers:
+            try:
+                _prev_levels[lname] = _logging.getLogger(lname).level
+                _logging.getLogger(lname).setLevel(_logging.WARNING)
+            except Exception:
+                _prev_levels[lname] = None
         import networkx as nx
         import matplotlib.pyplot as plt
     except Exception:
-        print("Visualization requires 'networkx' and 'matplotlib'. Install them to enable topology plots.")
+        # restore logging levels if we changed them
+        try:
+            if _logging is not None:
+                for lname, prev in _prev_levels.items():
+                    try:
+                        if prev is not None:
+                            _logging.getLogger(lname).setLevel(prev)
+                    except Exception:
+                        pass
+        except Exception:
+            pass
         return None
 
     # Build graph
@@ -42,7 +61,7 @@ def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, s
             n2 = getattr(ent.node2, "name", None)
             if n1 and n2:
                 # Use simple edge label (link name). Port annotations removed for readability.
-                G.add_edge(n1, n2, label=name)
+                G.add_edge(n1, n2, label=name, _link_name=name)
 
     if G.number_of_nodes() == 0:
         print("No nodes to visualize in the topology.")
@@ -125,12 +144,9 @@ def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, s
             sizes.append(int(900 * max(1.0, spacing)))
 
     # compute figure size: allow override, otherwise scale with widest layer and number of layers
-    if figsize:
-        fig_w, fig_h = figsize
-    else:
-        widest = max((len(layer) for layer in layers), default=1)
-        fig_w = max(12, int(3 + widest * 1.5 * spacing))
-        fig_h = max(8, int(2 + len(layers) * 2.0))
+    widest = max((len(layer) for layer in layers), default=1)
+    fig_w = max(12, int(3 + widest * 1.5 * spacing))
+    fig_h = max(8, int(2 + len(layers) * 2.0))
 
     plt.figure(figsize=(fig_w, fig_h))
     # increase font sizes so labels are readable
@@ -165,84 +181,140 @@ def visualize_topology(name: str, entities: Dict[Any, Any], show: bool = True, s
     nx.draw(G, pos, with_labels=False, node_color=colors, node_size=sizes)
     # Explicitly annotate host nodes using matplotlib.text so IPs show reliably
     ax = plt.gca()
-    # estimate a vertical offset relative to figure height for label placement
-    # increase offset to place labels further away from node markers so they are readable
-    # positions are normalized (0..1), use a larger offset
-    y_offset = 0.06 * max(1.0, spacing)
 
-    for node, lab in labels.items():
-        # draw labels for each node: hosts get their name and IP, switches get simple labels
-        x, y = pos.get(node, (0.5, 0.5))
-        if node_types.get(node) == 'host':
-            # host label may be multi-line: keep as provided
-            # if the node is too close to the bottom of the plot, draw label above node instead
-            draw_above = False  # (y - y_offset) < 0.02
-            label_y = (y + y_offset) if draw_above else (y - y_offset)
-            valign = 'bottom' if draw_above else 'top'
-            try:
-                ax.text(x, label_y, lab, horizontalalignment='center', verticalalignment=valign,
-                        fontsize=base_font, color='black',
-                        bbox=dict(facecolor='white', alpha=0.95, edgecolor='none', pad=0.3))
-            except Exception:
-                # fallback to simple label
-                ax.text(x, label_y, lab, horizontalalignment='center', verticalalignment=valign,
-                        fontsize=base_font, color='black')
+    # Color edges based on whether the underlying Link object is failed
+    edge_colors = []
+    edge_styles = []
+    failed_edge_pairs = []
+    healthy_edge_pairs = []
+    for (u, v, data) in G.edges(data=True):
+        link_name = data.get('label') or data.get('_link_name')
+        link_obj = entities.get(link_name)
+        if link_obj is not None and getattr(link_obj, 'failed', False):
+            edge_colors.append('red')
+            edge_styles.append('dashed')
+            failed_edge_pairs.append((u, v, link_name))
         else:
-            # draw switch labels above or centered
-            try:
-                ax.text(x, y + (y_offset / 2), lab, horizontalalignment='center', verticalalignment='bottom',
-                        fontsize=base_font, color='black',
-                        bbox=dict(facecolor='white', alpha=0.85, edgecolor='none', pad=0.3))
-            except Exception:
-                ax.text(x, y + (y_offset / 2), lab, horizontalalignment='center', verticalalignment='bottom',
-                        fontsize=base_font, color='black')
-    # Expand axes limits so labels near borders are not clipped
+            edge_colors.append('gray')
+            edge_styles.append('solid')
+            healthy_edge_pairs.append((u, v, link_name))
+
+    # draw edges with styles; draw failed edges with a thicker line so they're more visible
+    # first draw healthy (thin) then failed (thicker) so failed stand out
+    for (u, v, link_name) in healthy_edge_pairs:
+        coll = nx.draw_networkx_edges(G, pos, edgelist=[(u, v)], edge_color='gray', style='solid', width=1.5, alpha=0.9, ax=ax)
+        try:
+            coll.set_zorder(1)
+        except Exception:
+            pass
+    for (u, v, link_name) in failed_edge_pairs:
+        coll = nx.draw_networkx_edges(G, pos, edgelist=[(u, v)], edge_color='red', style='dashed', width=6.0, alpha=0.95, ax=ax)
+        try:
+            coll.set_zorder(5)
+        except Exception:
+            pass
+
+    # draw edge labels afterwards
+    edge_labels = nx.get_edge_attributes(G, 'label')
+    # draw labels manually so we can color failed-link labels differently and avoid overlap
+    for (u, v, data) in G.edges(data=True):
+        label = data.get('label')
+        if label is None:
+            continue
+        # compute midpoint for label placement
+        x1, y1 = pos[u]
+        x2, y2 = pos[v]
+        lx, ly = (x1 + x2) / 2.0, (y1 + y2) / 2.0
+        # choose color based on link failure
+        link_obj = entities.get(label)
+        is_failed = (link_obj is not None and getattr(link_obj, 'failed', False))
+        lab_color = 'red' if is_failed else 'black'
+        lab_text = (f"{label} (FAILED)" if is_failed else label)
+        try:
+            # draw marker for failed links to make them unmistakable
+            if is_failed:
+                try:
+                    ax.scatter([lx], [ly], color='red', marker='x', s=80, zorder=4)
+                except Exception:
+                    pass
+            ax.text(lx, ly, str(lab_text), fontsize=max(6, int(base_font * (1.0 if not is_failed else 1.1))),
+                    color=lab_color, fontweight=('bold' if is_failed else 'normal'),
+                    horizontalalignment='center', verticalalignment='center', bbox=dict(facecolor='white', alpha=0.9, edgecolor='none', pad=0.3))
+        except Exception:
+            # fallback to networkx label drawing for this label
+            pass
+
+    # add a legend so the failed links are obvious to readers
     try:
-        xs = [p[0] for p in pos.values()]
-        ys = [p[1] for p in pos.values()]
-        if xs and ys:
-            x_min, x_max = min(xs), max(xs)
-            y_min, y_max = min(ys), max(ys)
-            pad_x = 0.05 * max(1.0, spacing)
-            pad_y = 0.08 * max(1.0, spacing)
-            ax.set_xlim(x_min - pad_x, x_max + pad_x)
-            ax.set_ylim(y_min - pad_y, y_max + pad_y)
+        from matplotlib.lines import Line2D
+        legend_handles = [
+            Line2D([0], [0], color='gray', lw=2, label='healthy link'),
+            Line2D([0], [0], color='red', lw=4, linestyle='--', label='failed link'),
+        ]
+        ax.legend(handles=legend_handles, loc='upper center', fontsize=max(8, int(base_font * 0.9)), frameon=True)
     except Exception:
         pass
-    edge_labels = nx.get_edge_attributes(G, 'label')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=max(6, int(base_font * 0.75)))
 
     saved_path = None
-    if save:
-        if path is None:
-            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            path = f"results/topology_{name}_{timestamp}.png"
+    saved = False
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    path_selected = False
+    ver_index = 1
+    path:str = ""
+    while not path_selected:
+        path = f"./results/topology_{topop_name}_{timestamp}_{ver_index}.png"
+        if os.path.exists(path): # when tests in tests-sequence is really fast...
+            ver_index += 1
+        else:
+            path_selected = True
+    try:
+        # ensure results directory exists
+        try:
+            os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+        except Exception:
+            pass
         plt.savefig(path, bbox_inches='tight')
-        saved_path = path
-        print(f"Topology saved to {path}")
-        # Also save host -> IP mapping next to the PNG for easy inspection
-        if host_ip_list and False:
-            try:
-                hosts_path = os.path.splitext(path)[0] + "_hosts.txt"
-                with open(hosts_path, 'w', encoding='utf-8') as fh:
-                    fh.write('Hosts and IP addresses:\n')
-                    for hn, hip in host_ip_list:
-                        fh.write(f"{hn}: {hip if hip else '<no IP>'}\n")
-                print(f"Host IP mapping saved to {hosts_path}")
-            except Exception:
-                pass
-        # try opening automatically on Windows
+        # use absolute path so opening the file doesn't depend on the process CWD
         try:
-            if os.name == 'nt':
-                os.startfile(path)
+            saved_path = os.path.abspath(path)
         except Exception:
-            pass
+            saved_path = path
+        logging.info(f"Topology saved to {saved_path}")
+    except Exception:
+        logging.info(f"Topology failed to save into  {path}")
 
-    if show:
-        try:
-            plt.show()
-        except Exception:
-            # If show fails (headless), just continue
-            pass
+    # On Windows, attempt to open the saved file. Check existence first to avoid FileNotFoundError
+    try:
+        if os.name == 'nt' and saved_path:
+            if os.path.exists(saved_path):
+                try:
+                    os.startfile(saved_path)
+                except Exception:
+                    logging.debug(f"Failed to open saved topology file: {saved_path}")
+            else:
+                logging.warning(f"Saved topology file not found: {saved_path}")
+    except Exception:
+        # keep visualization best-effort: don't raise if opening fails
+        pass
+
+    try:
+        plt.show()
+    except Exception:
+        # If show fails (headless), just continue
+        pass
+
+    # restore logging levels if they were modified
+    try:
+        if _logging is not None:
+            for lname, prev in _prev_levels.items():
+                try:
+                    if prev is not None:
+                        _logging.getLogger(lname).setLevel(prev)
+                except Exception:
+                    pass
+    except Exception:
+        pass
     plt.close()
     return saved_path
+
+
