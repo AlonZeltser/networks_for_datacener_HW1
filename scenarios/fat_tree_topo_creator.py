@@ -18,7 +18,7 @@ class FatTreeTopoCreator(SimulatorCreator):
 
     def create_topology(self):
         bandwidth = 1e9
-        delay = 0.001 # 1 ms
+        delay = 0.0001 # 100us
         pods_count = self.k
         core_switches_count = (self.k // 2) ** 2
         agg_switches_per_pod = self.k // 2
@@ -146,13 +146,17 @@ class FatTreeTopoCreator(SimulatorCreator):
         all_other_host_names = [name for name in self.hosts.keys() if name != host.name]
         if not all_other_host_names:
             return
-        num_messages = 2
+        num_messages = 10
+        message_size_bytes = int(1e10/8) #10Gb
+        time_interval_between_messages = 0
+        send_time = 0.0
         for _ in range(num_messages):
             dst_host_name = random.choice(all_other_host_names)
-            logging.info(f"Creating host traffic from {host.name} to {dst_host_name}")
+            logging.debug(f"Creating host traffic from {host.name} to {dst_host_name}")
             dst_host = self.get_entity(dst_host_name)
             assert dst_host is not None
             send_time = random.uniform(0.1, 10.0)  # send between 0.1s and 1.0s
             def send_message(source:Host, dst_host:Host):
-                source.send_to_ip(dst_host.ip_address,f'Message from {source.name} to {dst_host.name}', size_bytes=1000)
+                source.send_to_ip(dst_host.ip_address,f'Message from {source.name} to {dst_host.name}', size_bytes=message_size_bytes)
             self.simulator.schedule_event(send_time, functools.partial(send_message, host, dst_host))
+            send_time += time_interval_between_messages

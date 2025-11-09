@@ -29,12 +29,14 @@ class Host(NetworkNode):
                           five_tuple= FiveTuple(self.ip_address, dst_ip_address, 0, 0, Protocol.TCP),
                           size_bytes=size_bytes,
                           brith_time=self.scheduler.get_current_time(),
-                          content=payload)
+                          content=payload,
+                          ttl=2000)
         message.path.append(self.name)
         self.scheduler.messages.append(message)
         self._internal_send_ip(message)
 
     def on_message(self, message: Message):
         message.delivered = True
-        logging.info(f"Received message: {message}"
+        message.arrival_time = self.scheduler.get_current_time()
+        logging.debug(f"Received message: {message}"
             f"[{self.scheduler.get_current_time():.6f}s] Host {self.name} received message {message.id} from {message.sender_id} with content: {message.content}")

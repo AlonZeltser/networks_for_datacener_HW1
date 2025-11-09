@@ -21,6 +21,7 @@ class DiscreteEventSimulator:
         self.event_queue: MinValuePriorityQueue = MinValuePriorityQueue()
         self.seq_counter = itertools.count()
         self.messages = []
+        self.end_time: Optional[float] = None
 
     def schedule_event(self, delay: float, action: Callable[[], None]) -> None:
         """Schedule an event to occur after a certain delay."""
@@ -29,19 +30,13 @@ class DiscreteEventSimulator:
         event = DESEvent(event_time, next(self.seq_counter), action)
         self.event_queue.enqueue(event)
 
-    def run(self, until: Optional[float] = None) -> None:
+    def run(self) -> None:
         """Run the simulation until there are no more events."""
         while self.event_queue:
             event = self.event_queue.dequeue()
-            if until is not None and event.time > until:
-                print("Re-enqueueing event for future processing")
-                self.event_queue.enqueue(event)
-                self.current_time = until
-                print("Simulation time advanced to", until)
-                break
-            # this is the earliest event to process
             self.current_time = event.time
             event.action()
+        self.end_time = self.current_time
 
     def get_current_time(self) -> float:
         return self.current_time

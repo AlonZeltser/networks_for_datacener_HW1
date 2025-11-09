@@ -95,3 +95,7 @@ class SimulatorCreator(ABC):
     @abstractmethod
     def create_scenario(self):
         pass
+
+    @property
+    def links(self):
+        return self._links

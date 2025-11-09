@@ -18,6 +18,10 @@ class Link:
         # whether this link is failed (physically down). Default: False
         self.failed: bool = False
 
+        #for statistics
+        self.accumulated_transmitting_time: float = 0.0
+        self.accumulated_bytes_transmitted: int = 0
+
     def connect(self, node: Node) -> None:
         if self.node1 is None:
             self.node1 = node
@@ -34,6 +38,8 @@ class Link:
         now = self.scheduler.get_current_time()
         actual_start_time = max(now, self.next_available_time[link_index])
         serialization_duration = message.size_bytes * 8 / self.bandwidth_bps  # in seconds
+        self.accumulated_transmitting_time += serialization_duration
+        self.accumulated_bytes_transmitted += message.size_bytes
         finish_serialization_time = actual_start_time + serialization_duration
         self.next_available_time[link_index] = finish_serialization_time
         arrival_time = finish_serialization_time + self.propagation_time

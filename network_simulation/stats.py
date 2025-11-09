@@ -1,44 +1,59 @@
 from typing import List, Dict, Any, Tuple
-
-# Avoid importing the stdlib `statistics` module because this repository contains a
-# top-level `statistics` package that shadows the standard library. Implement a
-# tiny local mean helper instead.
+from network_simulation.message import Message
+from network_simulation.link import Link
 
 def _mean(values: List[float]) -> float:
     return float(sum(values)) / float(len(values)) if values else 0.0
 
 
-def compute_run_stats(messages: List[Dict[str, Any]], topology: Dict[str, Any], include_lost_in_path_stats: bool = False) -> Dict[str, Any]:
-    """Compute run statistics.
+def compute_run_stats(messages: List[Message], topology: Dict[str, Any], scheduler:Any, links:List[Any]) -> Dict[str, Any]:
 
-    messages: list of message-like dicts or objects with attributes 'path' (list) and 'delivered' (bool)
-    topology: dict with keys 'hosts', 'switches', 'links', 'failed_links' (lists)
-    """
-    total = len(messages)
-    delivered_count = 0
-    lost_count = 0
+    messages_count = len(messages)
+    delivered_straight = 0
+    delivered_while_lost = 0
+    dropped_count = 0
     path_lengths = []
 
-    for m in messages:
-        # support either object with attributes or dict
-        delivered = getattr(m, 'delivered', None)
-        if delivered is None and isinstance(m, dict):
-            delivered = m.get('delivered', False)
-        if delivered:
-            delivered_count += 1
-        else:
-            lost_count += 1
+    total_time = scheduler.end_time
 
-        if include_lost_in_path_stats or delivered:
-            p = getattr(m, 'path', None)
-            if p is None and isinstance(m, dict):
-                p = m.get('path', [])
-            path_lengths.append(len(p or []))
+    for m in messages:
+        assert not (m.delivered and m.dropped), "Message cannot be both delivered and dropped"
+        # support either object with attributes or dict
+        if m.delivered:
+            if m.lost:
+                delivered_while_lost += 1
+            else:
+                delivered_straight += 1
+            path_lengths.append(len(m.path))
+        elif m.dropped:
+            dropped_count += 1
 
     avg_path = float(_mean(path_lengths)) if path_lengths else 0.0
     max_path = max(path_lengths) if path_lengths else 0
     min_path = min(path_lengths) if path_lengths else 0
-    pct_lost = (lost_count / total * 100.0) if total > 0 else 0.0
+    dropped_percentage = (dropped_count / messages_count * 100.0) if messages_count > 0 else 0.0
+    delivered_straight_percentage = (delivered_straight / messages_count * 100.0) if messages_count > 0 else 0.0
+    delivered_while_lost_percentage = (delivered_while_lost / messages_count * 100.0) if messages_count > 0 else 0.0
+
+    total_links = len(links)
+    total_delivery_time = 0.0
+    min_delivery_time = float("inf")
+    max_delivery_time = 0.0
+    min_delivery_bytes = float("inf")
+    max_delivery_bytes = 0
+    total_bytes = 0
+    for link in links:
+        min_delivery_time = min(min_delivery_time, link.accumulated_transmitting_time)
+        max_delivery_time = max(max_delivery_time, link.accumulated_transmitting_time)
+        total_delivery_time += link.accumulated_transmitting_time
+        min_delivery_bytes = min(min_delivery_bytes, link.accumulated_bytes_transmitted)
+        max_delivery_bytes = max(max_delivery_bytes, link.accumulated_bytes_transmitted)
+        total_bytes += link.accumulated_bytes_transmitted
+
+    link_average_time = (total_delivery_time / total_links) if total_links > 0 else 0.0
+    link_average_utlization = (total_delivery_time / (total_links * total_time)) * 100.0 if total_links > 0 and total_time > 0 else 0.0
+    link_average_bytes = (total_bytes / total_links) if total_links > 0 else 0.0
+
 
     failed_links = topology.get('failed_links', []) or []
     switches = set(topology.get('switches', []) or [])
@@ -62,18 +77,27 @@ def compute_run_stats(messages: List[Dict[str, Any]], topology: Dict[str, Any], 
                 pass
 
     stats = {
+        'total_time': total_time,
+        'delivered_straight_count': delivered_straight,
+        'delivered_straight_percentage': delivered_straight_percentage,
+        'delivered_while_lost_count': delivered_while_lost,
+        'delivered_while_lost_percentage': delivered_while_lost_percentage,
+        'dropped_count': dropped_count,
+        'dropped_percentage': dropped_percentage,
+        'link_average_delivery_time': link_average_time,
+        'link_min_delivery_time': min_delivery_time if min_delivery_time != float("inf") else 0.0,
+        'link_max_delivery_time': max_delivery_time,
+        'link_average_utilization_percent': link_average_utlization,
+        'link_min_bytes_transmitted': min_delivery_bytes if min_delivery_bytes != float("inf") else 0,
         'average_path_length': avg_path,
         'max_path_length': max_path,
         'min_path_length': min_path,
-        'percent_messages_lost': pct_lost,
         'switches_with_failed_link': len(switches_with_failed_link),
         'num_failed_links': len(failed_links),
         'num_hosts': len(topology.get('hosts', []) or []),
         'num_switches': len(topology.get('switches', []) or []),
         'num_links': len(topology.get('links', []) or []),
-        'total_messages': total,
-        'delivered_messages': delivered_count,
-        'lost_messages': lost_count,
+        'total_messages': messages_count,
     }
     return stats
 

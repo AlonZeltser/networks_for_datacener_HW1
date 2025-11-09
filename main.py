@@ -39,11 +39,11 @@ def create_creators_from_args(args) -> List[SimulatorCreator]:
     elif topology == 'hsh':
         for link_failure in link_failures:
             logging.info(f"Creating HSH topology with link-failure={link_failure}%")
-            results.append(HSHCreator(visualize, link_failure_percent=link_failure))
+            results.append(HSHCreator(visualize, link_failure_percent=link_failure, max_path=3))
     elif topology == 'simple-star':
         for link_failure in link_failures:
             logging.info(f"Creating Simple Star topology with link-failure={link_failure}%")
-            results.append(SimpleStarCreator(visualize, link_failure_percent=link_failure))
+            results.append(SimpleStarCreator(visualize, link_failure_percent=link_failure, max_path=6))
     else:
         raise ValueError(f"Unknown topology '{args.t}'. Valid options: fat-tree, hsh, simple-star")
 
@@ -74,8 +74,8 @@ def main(argv):
         simulator.run()
         # collect messages that were created during the run
         messages = simulator.messages
-        topology = extract_topology_info(creator.entities, creator._links)
-        stats = compute_run_stats(messages, topology)
+        topology = extract_topology_info(creator.entities, creator.links)
+        stats = compute_run_stats(messages, topology, simulator, creator.links)
         message = "\n".join(f"{k}: {v}" for k, v in stats.items())
         logging.info(f"Simulation stats: \n {message}")
 

@@ -70,8 +70,8 @@ class NetworkNode(Node, ABC):
 
     def handle_lost_message(self, message: Message):
         relevant_ports: Set[int] = set()
-        for port_id in self.ports_to_links.keys():
-            if message.id not in self.port_to_messages_passed[port_id]:
+        for port_id, link in self.ports_to_links.items():
+            if message.id not in self.port_to_messages_passed[port_id] and not link.failed:
                 relevant_ports.add(port_id)
         if relevant_ports:
             arbitrary_port_id = random.sample(relevant_ports, 1)[0]
