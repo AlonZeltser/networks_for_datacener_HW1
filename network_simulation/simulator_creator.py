@@ -10,7 +10,6 @@ from network_simulation.link import Link
 from network_simulation.switch import Switch
 from network_simulation.visualizer import visualize_topology
 
-
 class SimulatorCreator(ABC):
     def __init__(self, name:str, max_path: int, visualize: bool = False,
                  link_failure_percent: float = 0.0 ):
@@ -25,11 +24,9 @@ class SimulatorCreator(ABC):
         self.entities: Dict[str, Any] = {}
         self.hosts: Dict[str, Host] = {}
         self._visualize = visualize
-        # visualization options (may be provided via viz_options)
         self.name = name
-        # keep track of links for potential reporting
         self._links: List[Link] = []
-        # store percent as a 0..100 float
+        self.switches: List[Switch] = []
         self.link_failure_percent = float(link_failure_percent)
         self.max_path = max_path
 
@@ -49,10 +46,12 @@ class SimulatorCreator(ABC):
         self.create_scenario()
 
         # Optionally visualize after scenario creation
-        if self._visualize:
-            visualize_topology(
-                self.name,
-                self.entities)
+        # Always create/save topology visualization; show depends on the visualize flag
+        try:
+            visualize_topology(self.name, self.entities, show=self._visualize)
+        except Exception:
+            # do not break simulator creation if visualization fails
+            logging.exception("visualize_topology failed")
 
         return self.simulator
 
@@ -68,6 +67,7 @@ class SimulatorCreator(ABC):
         s = Switch(name, ports_count, self.simulator, self.max_path)
         assert name not in self.entities
         self.entities[name] = s
+        self.switches.append(s)
         return s
 
     def create_link(self, name: str, bandwidth: float = 1e6, delay: float = 1e-3) -> Link:
@@ -84,6 +84,56 @@ class SimulatorCreator(ABC):
         # track created links for reporting
         self._links.append(l)
         return l
+
+    def get_results(self):
+        topology_summary = {
+            'hosts count': len(self.hosts),
+            'switches count': len(self.switches),
+            'links count': len(self.links),
+            'failed_links': len([link for link in self.links if getattr(link, 'failed')]),
+            'affected switches': len([s for s in self.switches if any(link for link in s.links if link.failed)])
+        }
+
+        parameters_summary = self.get_parameters_summary()
+
+        total_time = self.simulator.end_time
+        messages_count = len(self.simulator.messages)
+        messages_delivered_straight_count = len([m for m in self.simulator.messages if m.delivered and not m.lost])
+        messages_delivered_although_lost_count = len([m for m in self.simulator.messages if m.delivered and m.lost])
+        dropped_message_count = len([m for m in self.simulator.messages if m.dropped])
+        path_lengths = [length for length in (len(m.path) for m in self.simulator.messages if m.delivered)]
+        trans_times = [link.accumulated_transmitting_time for link in self.links]
+        links_average_delivery_time = float(sum(trans_times)) / float(len(trans_times))
+
+        run_statistics = {
+            'messages count': messages_count,
+            'total run time': self.simulator.end_time,
+            'delivered straight messages count': messages_delivered_straight_count,
+            'delivered straight messages percentage': (messages_delivered_straight_count / messages_count * 100.0) if messages_count > 0 else 0.0,
+            'delivered while lost messages count': messages_delivered_although_lost_count,
+            'delivered while lost messages percentage': (messages_delivered_although_lost_count / messages_count * 100.0) if messages_count > 0 else 0.0,
+            'dropped messages count': dropped_message_count,
+            'dropped messages percentage': (dropped_message_count / messages_count * 100.0) if messages_count > 0 else 0.0,
+            'avg path length': float(sum(path_lengths)) / float(len(path_lengths)) if path_lengths else 0.0,
+            'max path length': max(path_lengths) if path_lengths else 0,
+            'min path length': min(path_lengths) if path_lengths else 0,
+            'links min delivery time': min(trans_times),
+            'links max delivery time': max(trans_times),
+            'links average delivery time': links_average_delivery_time,
+            'link average utilization': links_average_delivery_time / total_time,
+            'link_min_bytes_transmitted': min(link.accumulated_bytes_transmitted for link in self.links),
+            'link_max_bytes_transmitted': max(link.accumulated_bytes_transmitted for link in self.links)
+        }
+        return {'topology summary': topology_summary,
+                'parameters summary': parameters_summary,
+                'run statistics': run_statistics}
+
+
+    def get_parameters_summary(self):
+        return {
+            'max_path': self.max_path,
+            'link_failure_percent': self.link_failure_percent
+        }
 
     def get_entity(self, name: str) -> Any:
         return self.entities.get(name)

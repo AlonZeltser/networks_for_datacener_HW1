@@ -1,5 +1,6 @@
 import functools
 import logging
+from typing import Dict, Any
 
 from network_simulation.host import Host
 from network_simulation.simulator_creator import SimulatorCreator
@@ -15,6 +16,7 @@ class FatTreeTopoCreator(SimulatorCreator):
         assert k >= 1
         assert k % 2 == 0
         self.k = k  # Number of ports per switch
+        self._identifier = {"k": k, "link failure percent": link_failure_percent}
 
     def create_topology(self):
         bandwidth = 1e9
@@ -100,17 +102,12 @@ class FatTreeTopoCreator(SimulatorCreator):
                 agg_switch.assert_correctly_full()
 
         # print counts per layer and servers
-        print(f"Fat-tree (k={self.k}) topology summary:")
-        print(f"  Core switches: {core_switches_count}")
-        print(f"  Aggregation switches: {total_agg_switches} ({agg_switches_per_pod} per pod)")
-        print(f"  Edge switches: {total_edge_switches} ({edge_switches_per_pod} per pod)")
-        print(f"  Servers (hosts): {total_hosts} ({hosts_per_edge_switch} per edge switch)")
-        self.log_all_routing_tables()
+        logging.info(f"Fat-tree (k={self.k}) topology summary:")
+        logging.info(f"  Core switches: {core_switches_count}")
+        logging.info(f"  Aggregation switches: {total_agg_switches} ({agg_switches_per_pod} per pod)")
+        logging.info(f"  Edge switches: {total_edge_switches} ({edge_switches_per_pod} per pod)")
+        logging.info(f"  Servers (hosts): {total_hosts} ({hosts_per_edge_switch} per edge switch)")
 
-    def log_all_routing_tables(self):
-        for entity in self.entities.values():
-            if isinstance(entity, Host) or isinstance(entity, Switch):
-                logging.info(f"Routing table for {entity.name}: {entity.ip_forward_table}")
 
     def create_scenario(self):
         for host in self.hosts.values():
@@ -160,3 +157,13 @@ class FatTreeTopoCreator(SimulatorCreator):
                 source.send_to_ip(dst_host.ip_address,f'Message from {source.name} to {dst_host.name}', size_bytes=message_size_bytes)
             self.simulator.schedule_event(send_time, functools.partial(send_message, host, dst_host))
             send_time += time_interval_between_messages
+    @property
+    def identifier(self):
+        return self._identifier
+
+    def get_parameters_summary(self) -> Dict[str, Any]:
+        params = super().get_parameters_summary() or {}
+        # return a new dict with k included (avoid mutating parent's dict)
+        out = dict(params)
+        out['k'] = self.k
+        return out

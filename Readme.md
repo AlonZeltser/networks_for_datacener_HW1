@@ -4,19 +4,13 @@
 
 This project is the submission for HW in the course <bold>Networks for Data Centers and AI </bold>.
 
-The project is aimed to visualize and simulate the behavior of a Fat-Tree network topology under various scenarios.
+The project is aimed to simulate and visualize the behavior of a Fat-Tree network topology under various scenarios.
 For this purpose, I implemented a fully functional network-flow simulator.
-The simulator is based on the design pattern DES (discrete even simulator) 
+The simulator is based on the design pattern DES: Discrete Event Simulator.  This design allows to model the network components as independent entities that interact via events, while using deterministic timing.
+
 The goal architecture implemented is of "Fat Tree Network Topology" by *Al-Fares et al., SIGCOMM 2008*.
-The simulator models packet transmission, routing, and failure scenarios in a scalable data-center topology.
+The simulator models packet transmission, basic routing, and failure scenarios in a scalable data-center topology.
 
-<div style="text-align:center">
-<span style="font-size:20px">
-Note
-
-This is a temporal submission, not all functionality is implemented, fully tested or documented in this file.
-</span>
-</div>
 
 **Objectives:**
 - Understand and implement a hierarchical Fat-Tree topology.
@@ -25,37 +19,49 @@ This is a temporal submission, not all functionality is implemented, fully teste
 - Observe routing, load balancing (ECMP), and fault recovery.
 
 ## ⚙️ Implementation Approach
-**Language:** Python 3.9  
-**Framework:** My own event-driven simulator  
-**Alternatives:** Using external simulation libraries such as mininet. Eventually I choose to implement my own for the learning process.  
-**Other Considerations**: I chose to use an Object-Oriented modeling for the system, where each object acts similarly to its real-world behavior.  
+- **Language:** Python 3.9+
+- **Framework:** My own event-driven simulator
+- **Alternatives:** Using external simulation libraries such as mininet. Eventually I choose to implement my own for the learning process.
+- **SW approach**: Fully Object-Oriented modeling for the system, where each object acts similarly to its real-world behavior.
+- **Visualization**:  Added externally to the real world simulation, using matplotlib and networkx for graph visualization.
+- **logging**: Full logger is available for debug and tracking. Log is saved to file `simulation.log`.
+- **Other scenarios**: The simulator is designed to be extensible to other topologies and scenarios, such as HSH (host-switch-hos) and a tree ('simple star').
 
-## AI Usage
+### 💡 AI Usage
 **I developed and coded the project by myself, yet was assisted by Gen AI tools as follows:**  
-- Choosing DSE Design Pattern (over usage of mininet), pattern exploration: ChatGPT5    
+- Design alternatives and decision: choosing DSE (over usage of mininet) consulted by ChatGPT5      
 - Python ongoing hints features exploration: ChatGPT5  
 - Typo corrections finding: Github Copilot (GPT-5 mini)  
 - Readme.md: hyper-text syntax, common readme structuring: ChatGPT5, Copilot  (GPT-5 mini)
-- Visualizations: pakages selection, implementation hints and examples: github Copilot (GPT-5 mini, Claude Sonnet 3.5)
+- Visualizations and plots: pakages selection, implementation hints and examples: github Copilot (GPT-5 mini, Claude Sonnet 3.5)
 
 ChatGPT doumentation will be published as part of final submission.
 
-### Architecture Summary
-| Real life Component  | Responsibility                                                                |
-|----------------------|-------------------------------------------------------------------------------|
-| `Host`               | Generates and receives packets; interacts via ARP and routing logic (TBD)|
-| `Switch`             | Maintains forwarding tables; handles packet forwarding and ECMP|
-| `Link`               | Connects two nodes; simulates latency, bandwidth, and (TBD) randomal failures |
+### 🧩 Architecture main components
+| Real life Component  | Responsibility                                                                                                                                                                                          |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Host`               | Generates and receives packets;                                                                                                                                                                         |
+| `Switch`             | Contains multple ports. Maintains forwarding tables by subnets; <br/>handles packet forwarding and ECMP when the candidate ports have same weight, use reducing alternative trials for looping messages |
+| `Link`               | Connects two nodes; simulates latency, bandwidth, and randomal failures. transfer the event from the sending entitiy to the receiving                                                                   |
 
-| Pure SW Component     | Responsibility                                                                                                     |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------|
-| `Node`                | Base class for an actor that may receive and handle events                                                         |
-| `NetworkNode`         | A Node that can receive netwok packets (Host, Switch..)                                                            |
-| `Scheduler`           | Alias for the discrete event manager. Handles scheduled-tasks and execute them on the right time                   |
-| `Message` / `Packet`  | Data unit that is sent between components                                                                          |
-| `SimulatorCreator`    | BAse class for creating instances of simulation (e.g. Fat Tree). A concrete creator should inheret from this class |
+| Pure SW Component     | Responsibility                                                                                           |
+|-----------------------|----------------------------------------------------------------------------------------------------------|
+| `Node`                | Base class for an actor that may receive and handle events                                               |
+| `NetworkNode`         | A Node that can receive netwok packets (Host, Switch..). implementes the actual routing.                 |
+| `Scheduler`           | Alias for the discrete event manager. Handles scheduled-tasks and execute them on the right time         |
+| `Message` / `Packet`  | Data unit that is sent between components. In this implementation also track its rout, timing etc.       |
+| `SimulatorCreator`    | Base class for creating instances of simulation (e.g. Fat Tree). Takes car also on results and summaries |
 
-### Design Highlights
+### 🕸️ Design Highlights: Network
+- Each port is set with a subnet
+- Routing is done to the "narrowest" subnet match
+- ECMP implemented by random choice among equal-cost paths
+- Loop is tracked: each port remembers the packets that went through it, and avoid re-sending them
+- If a packet is found looped, it is marked as lost and a trial starts to send it to different ports, even one that don't match the subnet. This solves the "non trivial core" path, in case an aggregation-edge link is down.
+- If a packet has no routing (either by subnet or by lost-procedure), it is marked as dropped and gets out of the game.
+
+ 
+### 📦 Design Highlights: SW
 - Packages split over functionalities
 - Object-oriented, real-time simulating implementation.
 - Event queue ensures deterministic simulation order.
@@ -72,41 +78,53 @@ ChatGPT doumentation will be published as part of final submission.
 
 ### 2. Install dependencies
 
-### TBD update requirements.txt before final commit
-
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 3. Run baseline scenario
-### TBD add command line for Far-Tree k, and other parameters
+
+Parameters list:
+
 ```bash
-python main.py 
+python main.py --help
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t T                  Type of topology: fat-tree, hsh, simple-star. Default: fat-tree
+  -k K [K ...]          (fat-tree only) list of number of ports per switch
+                        (must be even). Default: 4
+  -v                    Enable topology on screen visualization (single
+                        boolean flag). If not set, visualizations are still
+                        saved to files. Default: False
+  -link-failure LINK_FAILURE [LINK_FAILURE ...]
+                        list of probability of links to fail in each test.
+                        Fraction (0-100) of links to fail. Default: [0]
+```
+**example 1:** running fat-tree architecture with k=4, 6, 8, on-screen visualization, link failures of 0%, 5%, 10%:
+```bash
+python main.py -t fat-tree -k 4 6 8 -v -link-failure 0 5 10
 ```
 
-### 4. Run with disruptive events
-### TBD add command line options for Fat-Tree k, and other parameters
+**example 2:** running simple tree architecture with no on-screen visualization, link failures of 20%:
 ```bash
-TBD 
+python main.py -t simple-star -link-failure 20
 ```
 
-### 5. Optional arguments
-###TBD
+### 4. View results
+- During the run, the simulator will output logs to the console and to `simulation.log`.
+- After completion, results summaries and visualizations will be saved in the `results/` directory.
 
-| Flag | Description |
-|------|--------------|
-
-
-## 🧪 Tests and Scenarios
+## 🧪 5. Tests and Scenarios
 
 
 ### TBD 
 
 
-## 📊 Results Summary
+## 📊 6. Results Summary
 ### TBD
 
-## 🗂️ Project Structure
+## 🗂️ 7. Project Structure
 ### update before final commit
 
 ```
@@ -141,7 +159,12 @@ networks_for_datacener_HW1/
 - M. Al-Fares, A. Loukissas, A. Vahdat,  
   *A Scalable, Commodity Data Center Network Architecture*, SIGCOMM 2008.  
 - [Wikipedia: Fat Tree network topology](https://en.wikipedia.org/wiki/Fat_tree)
+- [Wikipedia: Discrete event simulation](https://en.wikipedia.org/wiki/Discrete-event_simulation)
+- [Mininet](http://mininet.org/)
+- [Wikipedia: subnets and subnetting](https://en.wikipedia.org/wiki/Subnet)
+- [Wikipedia: ECMP](https://en.wikipedia.org/wiki/Equal-cost_multi-path_routing)
 
 ## ✍️ Author
-**Alon Zeltser**  
+**Alon Zeltser**
 Date: 5.11.2025
+ 

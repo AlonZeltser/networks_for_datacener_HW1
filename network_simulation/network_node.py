@@ -122,3 +122,7 @@ class NetworkNode(Node, ABC):
         else:
             logging.warning(f"{self.name} has no routing entry for destination IP {dst_ip}, dropping message")
             message.dropped = True
+
+    @property
+    def links(self) -> List[Link]:
+        return list(self.ports_to_links.values())

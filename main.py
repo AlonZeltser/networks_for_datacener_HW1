@@ -4,14 +4,12 @@ import argparse
 import sys
 from typing import List
 
-from pkg_resources import empty_provider
 
 from network_simulation.simulator_creator import SimulatorCreator
 from scenarios.fat_tree_topo_creator import FatTreeTopoCreator
 from scenarios.hsh_creator import HSHCreator
 from scenarios.simple_star_creator import SimpleStarCreator
-from network_simulation.stats import compute_run_stats, extract_topology_info
-
+from network_simulation.experiment_visualizer import visualize_experiment_results
 
 
 
@@ -52,13 +50,12 @@ def create_creators_from_args(args) -> List[SimulatorCreator]:
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(description='Network simulator runner')
-    parser.add_argument('-t', required=True,
-                        help='Type of topology: fat-tree, hsh, simple-star')
-    parser.add_argument('-k', nargs='+', type=int, default=None,
+    parser.add_argument('-t', default='fat-tree', help='Type of topology: fat-tree, hsh, simple-star')
+    parser.add_argument('-k', nargs='+', type=int, default=[4],
                         help='(fat-tree only) list of number of ports per switch (must be even)')
-    parser.add_argument('-v', '--visualize', action='store_true', dest='v',
-                        help='Enable topology visualization (single boolean flag)')
-    parser.add_argument('-link-failure', nargs='+', type=float, default=0.0,
+    parser.add_argument('-v', action='store_true', dest='v',
+                        help='Enable topology on screen visualization (single boolean flag). If not set, visualizations are still saved to files.')
+    parser.add_argument('-link-failure', nargs='+', type=float, default=[0.0],
                         help='list of probability of links to fail in each test. Fraction (0-100) of links to fail')
     return parser.parse_args(argv)
 
@@ -69,15 +66,22 @@ def main(argv):
     logging.info(f"Link-failure percent parameter : {args.link_failure}")
 
     creators = create_creators_from_args(args)
+    aggregated_results = []
     for creator in creators:
         simulator = creator.create_simulator()
         simulator.run()
-        # collect messages that were created during the run
-        messages = simulator.messages
-        topology = extract_topology_info(creator.entities, creator.links)
-        stats = compute_run_stats(messages, topology, simulator, creator.links)
+        results = creator.get_results()
+        stats = results['run statistics']
         message = "\n".join(f"{k}: {v}" for k, v in stats.items())
         logging.info(f"Simulation stats: \n {message}")
+        aggregated_results.append(results)
+
+
+    # pass the single boolean visualize flag so the visualizer can choose
+    # whether to open plots (non-blocking) or only save them
+    visualize_experiment_results(aggregated_results, visualize=args.v)
+
+
 
 
 def set_logger():

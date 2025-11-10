@@ -4,6 +4,7 @@ from network_simulation.simulator_creator import SimulatorCreator
 class HSHCreator(SimulatorCreator):
     def __init__(self, visualize:bool, max_path:int, link_failure_percent:float=0.0):
         super().__init__("hsh", max_path, visualize, link_failure_percent=link_failure_percent)
+        self._identifier = {"link failure percent": link_failure_percent}
 
     def create_topology(self):
         h1 = self.create_host('Host1', "10.1.1.1")

@@ -4,10 +4,11 @@ import os
 from typing import Optional, Dict, Any
 
 
-def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float = 2.0) -> Optional[str]:
+def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float = 2.0, show: bool = True) -> Optional[str]:
     """Create a visualization of the topology using networkx + matplotlib if available.
 
-    Returns the path to the saved file if saved, otherwise None.
+    If `show` is True the function will attempt to display the figure; if False the figure
+    will only be saved to disk (no GUI). The function returns the path to the saved file if saved, otherwise None.
     """
     # Lazy import so visualization is optional. When suppression requested, reduce logging noise
     _logging = None
@@ -21,6 +22,13 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
                 _logging.getLogger(lname).setLevel(_logging.WARNING)
             except Exception:
                 _prev_levels[lname] = None
+        # If we're not showing, prefer a non-interactive backend to avoid GUI windows or blocking
+        if not show:
+            try:
+                import matplotlib as _mpl
+                _mpl.use('Agg')
+            except Exception:
+                pass
         import networkx as nx
         import matplotlib.pyplot as plt
     except Exception:
@@ -283,25 +291,23 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
     except Exception:
         logging.info(f"Topology failed to save into  {path}")
 
-    # On Windows, attempt to open the saved file. Check existence first to avoid FileNotFoundError
+    # Inform if the file exists on disk; rely on matplotlib's plt.show() to display the image
     try:
-        if os.name == 'nt' and saved_path:
+        if saved_path:
             if os.path.exists(saved_path):
-                try:
-                    os.startfile(saved_path)
-                except Exception:
-                    logging.debug(f"Failed to open saved topology file: {saved_path}")
+                logging.info(f"Saved topology file is present: {saved_path}")
             else:
-                logging.warning(f"Saved topology file not found: {saved_path}")
+                logging.warning(f"Saved topology file not found after save attempt: {saved_path}")
     except Exception:
-        # keep visualization best-effort: don't raise if opening fails
         pass
 
-    try:
-        plt.show()
-    except Exception:
-        # If show fails (headless), just continue
-        pass
+    # Display only if requested
+    if show:
+        try:
+            plt.show()
+        except Exception:
+            # If show fails (headless), just continue
+            pass
 
     # restore logging levels if they were modified
     try:
@@ -316,5 +322,3 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
         pass
     plt.close()
     return saved_path
-
-
