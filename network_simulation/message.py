@@ -32,11 +32,12 @@ class Message:
     brith_time: float
     content: Any
     ttl: int
-    path: List[str] = field(default_factory=list)
+    path_length: int = 0
+    verbose_path: List[str] = field(default_factory=list) #only when verbose enabled
     delivered: bool = False
     dropped: bool = False
     lost: bool = False
     arrival_time: Optional[float] = None
 
     def is_expired(self, current_time: float, max_path: int) -> bool:
-        return (current_time - self.brith_time) > self.ttl or len(self.path) > max_path
+        return (current_time - self.brith_time) > self.ttl or self.path_length > max_path

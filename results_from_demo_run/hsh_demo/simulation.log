@@ -1,0 +1,334 @@
+22:42:30 [INFO] main.py:71 - Starting network simulation. topology=hsh, k=[4], visualize=True, verbose=True, link-failure=[0.0, 10.0]
+22:42:30 [INFO] main.py:42 - Creating HSH topology with link-failure=0.0%
+22:42:30 [INFO] main.py:42 - Creating HSH topology with link-failure=10.0%
+22:42:30 [DEBUG] simulator_creator.py:36 - Creating topology...
+22:42:30 [DEBUG] simulator_creator.py:38 - topology created.
+22:42:30 [DEBUG] simulator_creator.py:49 - Creating scenario...
+22:42:30 [DEBUG] simulator_creator.py:51 - Scenario created.
+22:42:31 [INFO] visualizer.py:281 - Topology saved to C:\Users\alonz\repos\studies\networks\network_sim\results\topology_hsh_20251111_224231_1.png
+22:42:31 [INFO] main.py:77 - Starting simulation
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=2, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=0.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=0.8280000000000001)[0.828000s] Host Host1 received message 2 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=5, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=0.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=1.6280000000000001)[1.628000s] Host Host1 received message 5 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=42, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=1.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=2.428)[2.428000s] Host Host1 received message 42 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=43, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=1.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=3.2279999999999998)[3.228000s] Host Host1 received message 43 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=44, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=2.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=4.028)[4.028000s] Host Host1 received message 44 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=45, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=2.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=4.827999999999999)[4.828000s] Host Host1 received message 45 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=46, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=3.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=5.627999999999999)[5.628000s] Host Host1 received message 46 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=47, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=3.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=6.427999999999999)[6.428000s] Host Host1 received message 47 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=48, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=4.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=7.227999999999999)[7.228000s] Host Host1 received message 48 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=49, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=4.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=8.027999999999999)[8.028000s] Host Host1 received message 49 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=50, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=5.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=8.828)[8.828000s] Host Host1 received message 50 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=51, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=5.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=9.628)[9.628000s] Host Host1 received message 51 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=52, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=6.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=10.428)[10.428000s] Host Host1 received message 52 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=53, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=6.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=11.228000000000002)[11.228000s] Host Host1 received message 53 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=54, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=7.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=12.028000000000002)[12.028000s] Host Host1 received message 54 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=55, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=7.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=12.828000000000003)[12.828000s] Host Host1 received message 55 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=56, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=8.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=13.628000000000004)[13.628000s] Host Host1 received message 56 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=57, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=8.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=14.428000000000004)[14.428000s] Host Host1 received message 57 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=58, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=9.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=15.228000000000005)[15.228000s] Host Host1 received message 58 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=59, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=9.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=16.028000000000006)[16.028000s] Host Host1 received message 59 from  with content: bye bye, Host1!
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 0 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 1 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 3 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 4 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 6 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 7 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 8 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 9 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 10 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 11 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 12 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 13 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 14 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 15 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 16 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 17 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 18 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 19 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 20 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 21 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 22 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 23 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 24 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 25 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 26 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 27 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 28 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 29 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 30 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 31 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 32 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 33 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 34 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 35 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 36 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 37 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 38 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 39 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 40 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 41 to 10.1.1.2
+22:42:31 [INFO] main.py:79 - Simulation finished. collecting results
+22:42:31 [INFO] main.py:83 - Simulation stats: 
+ messages count: 60
+total run time: 160000.01
+delivered straight messages count: 20
+delivered straight messages percentage: 33.33333333333333
+delivered while lost messages count: 0
+delivered while lost messages percentage: 0.0
+dropped messages count: 40
+dropped messages percentage: 66.66666666666666
+avg path length: 3.0
+max path length: 3
+min path length: 3
+links min delivery time: 0.1600000000000001
+links max delivery time: 160015.9999999998
+links average delivery time: 80008.0799999999
+link average utilization: 0.500050468746845
+link_min_bytes_transmitted: 2000
+link_max_bytes_transmitted: 20002000
+22:42:31 [DEBUG] simulator_creator.py:36 - Creating topology...
+22:42:31 [DEBUG] simulator_creator.py:38 - topology created.
+22:42:31 [INFO] simulator_creator.py:46 - Link failure summary: 0 links marked as failed
+22:42:31 [DEBUG] simulator_creator.py:49 - Creating scenario...
+22:42:31 [DEBUG] simulator_creator.py:51 - Scenario created.
+22:42:31 [INFO] visualizer.py:281 - Topology saved to C:\Users\alonz\repos\studies\networks\network_sim\results\topology_hsh_20251111_224231_2.png
+22:42:31 [INFO] main.py:77 - Starting simulation
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=62, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=0.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=0.8280000000000001)[0.828000s] Host Host1 received message 62 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host1 sending for destination 10.1.1.2 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=65, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=0.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=1.6280000000000001)[1.628000s] Host Host1 received message 65 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=102, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=1.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=2.428)[2.428000s] Host Host1 received message 102 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=103, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=1.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=3.2279999999999998)[3.228000s] Host Host1 received message 103 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=104, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=2.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=4.028)[4.028000s] Host Host1 received message 104 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=105, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=2.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=4.827999999999999)[4.828000s] Host Host1 received message 105 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=106, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=3.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=5.627999999999999)[5.628000s] Host Host1 received message 106 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=107, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=3.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=6.427999999999999)[6.428000s] Host Host1 received message 107 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=108, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=4.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=7.227999999999999)[7.228000s] Host Host1 received message 108 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=109, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=4.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=8.027999999999999)[8.028000s] Host Host1 received message 109 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=110, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=5.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=8.828)[8.828000s] Host Host1 received message 110 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Host2 sending for destination 10.1.1.1 through port 1 to link h2_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] network_node.py:126 - Switch1 sending for destination 10.1.1.1 through port 1 to link h1_s1
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=111, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=5.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=9.628)[9.628000s] Host Host1 received message 111 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=112, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=6.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=10.428)[10.428000s] Host Host1 received message 112 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=113, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=6.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=11.228000000000002)[11.228000s] Host Host1 received message 113 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=114, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=7.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=12.028000000000002)[12.028000s] Host Host1 received message 114 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=115, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=7.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=12.828000000000003)[12.828000s] Host Host1 received message 115 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=116, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=8.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=13.628000000000004)[13.628000s] Host Host1 received message 116 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=117, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=8.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=14.428000000000004)[14.428000s] Host Host1 received message 117 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=118, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=9.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=15.228000000000005)[15.228000s] Host Host1 received message 118 from  with content: bye bye, Host1!
+22:42:31 [DEBUG] host.py:44 - Received message: Message(id=119, sender_id='', five_tuple=FiveTuple(src_ip='10.1.1.2', dst_ip='10.1.1.1', src_protocol_port=0, dst_protocol_port=0, protocol=<Protocol.TCP: 1>), size_bytes=100, brith_time=9.0, content='bye bye, Host1!', ttl=2000, path_length=3, verbose_path=['Host2', 'Switch1', 'Host1'], delivered=True, dropped=False, lost=False, arrival_time=16.028000000000006)[16.028000s] Host Host1 received message 119 from  with content: bye bye, Host1!
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 60 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 61 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 63 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 64 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 66 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 67 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 68 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 69 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 70 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 71 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 72 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 73 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 74 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 75 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 76 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 77 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 78 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 79 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 80 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 81 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 82 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 83 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 84 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 85 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 86 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 87 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 88 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 89 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 90 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 91 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 92 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 93 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 94 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 95 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 96 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 97 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 98 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 99 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 100 to 10.1.1.2
+22:42:31 [WARNING] network_node.py:69 - Switch1 dropping expired message 101 to 10.1.1.2
+22:42:31 [INFO] main.py:79 - Simulation finished. collecting results
+22:42:31 [INFO] main.py:83 - Simulation stats: 
+ messages count: 60
+total run time: 160000.01
+delivered straight messages count: 20
+delivered straight messages percentage: 33.33333333333333
+delivered while lost messages count: 0
+delivered while lost messages percentage: 0.0
+dropped messages count: 40
+dropped messages percentage: 66.66666666666666
+avg path length: 3.0
+max path length: 3
+min path length: 3
+links min delivery time: 0.1600000000000001
+links max delivery time: 160015.9999999998
+links average delivery time: 80008.0799999999
+link average utilization: 0.500050468746845
+link_min_bytes_transmitted: 2000
+link_max_bytes_transmitted: 20002000

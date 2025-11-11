@@ -160,7 +160,7 @@ def _aggregate_by_rate(entries: List[Tuple[float, float, float, float, float, fl
 
 # --- Plot helpers ---
 
-def _plot_time_and_utilization(plt, k_val: Optional[str], rates: List[float], avg_deliveries: List[float], avg_utils: List[float], out_dir: str, visualize: bool) -> Optional[str]:
+def _plot_time_and_utilization(plt, k_val: Optional[str], rates: List[float], avg_deliveries: List[float], avg_utils: List[float], out_dir: str) -> Optional[str]:
     if not rates:
         return None
     fig, ax1 = plt.subplots()
@@ -187,17 +187,11 @@ def _plot_time_and_utilization(plt, k_val: Optional[str], rates: List[float], av
     try:
         fig.savefig(out_path)
     finally:
-        if visualize:
-            try:
-                plt.show(block=False)
-                plt.pause(1)
-            except Exception:
-                pass
         plt.close(fig)
     return out_path
 
 
-def _plot_delivery_stats(plt, k_val: Optional[str], rates: List[float], ds_pcts: List[float], dwl_pcts: List[float], d_pcts: List[float], out_dir: str, visualize: bool) -> Optional[str]:
+def _plot_delivery_stats(plt, k_val: Optional[str], rates: List[float], ds_pcts: List[float], dwl_pcts: List[float], d_pcts: List[float], out_dir: str) -> Optional[str]:
     if not rates:
         return None
     fig2, ax = plt.subplots()
@@ -216,17 +210,11 @@ def _plot_delivery_stats(plt, k_val: Optional[str], rates: List[float], ds_pcts:
     try:
         fig2.savefig(out_path2)
     finally:
-        if visualize:
-            try:
-                plt.show(block=False)
-                plt.pause(1)
-            except Exception:
-                pass
         plt.close(fig2)
     return out_path2
 
 
-def _plot_path_lengths(plt, k_val: Optional[str], rates: List[float], avg_paths: List[float], max_paths: List[float], out_dir: str, visualize: bool) -> Optional[str]:
+def _plot_path_lengths(plt, k_val: Optional[str], rates: List[float], avg_paths: List[float], max_paths: List[float], out_dir: str) -> Optional[str]:
     """Plot average and max path length vs failure rate."""
     if not rates:
         return None
@@ -245,17 +233,11 @@ def _plot_path_lengths(plt, k_val: Optional[str], rates: List[float], avg_paths:
     try:
         fig.savefig(out_path)
     finally:
-        if visualize:
-            try:
-                plt.show(block=False)
-                plt.pause(1)
-            except Exception:
-                pass
         plt.close(fig)
     return out_path
 
 
-def _plot_loss_and_path_vs_k(plt, rate_val: float, ks: List[float], dropped_pcts: List[float], avg_paths: List[float], out_dir: str, visualize: bool) -> Optional[str]:
+def _plot_loss_and_path_vs_k(plt, rate_val: float, ks: List[float], dropped_pcts: List[float], avg_paths: List[float], out_dir: str) -> Optional[str]:
     """For a single failure rate, plot dropped % and avg path length vs k."""
     if not ks:
         return None
@@ -279,17 +261,11 @@ def _plot_loss_and_path_vs_k(plt, rate_val: float, ks: List[float], dropped_pcts
     try:
         fig.savefig(out_path)
     finally:
-        if visualize:
-            try:
-                plt.show(block=False)
-                plt.pause(1)
-            except Exception:
-                pass
         plt.close(fig)
     return out_path
 
 
-def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_dir: str = "results/experiments", visualize: bool = True) -> None:
+def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_dir: str = "results/experiments") -> None:
     """
     Create one plot per distinct k value found in the provided `results` list.
 
@@ -302,16 +278,10 @@ def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_d
       - left y axis: average link transmission time ('links average delivery time')
       - right y axis: average link utilization ('link average utilization')
 
-    When `visualize` is True the function will attempt a non-blocking display (so it does not hang the caller).
-    When `visualize` is False the figures are still saved to disk but not opened.
+
     """
 
-    # Choose matplotlib backend: if visualize=False use Agg to avoid any GUI windows
-    try:
-        if not visualize:
-            mpl.use('Agg')
-    except Exception:
-        pass
+    mpl.use('Agg')
 
     # import pyplot after backend selection
     try:
@@ -345,9 +315,9 @@ def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_d
             continue
 
         # Three dedicated plot routines
-        _plot_time_and_utilization(plt, k_val, rates, avg_deliveries, avg_utils, out_dir, visualize)
-        _plot_delivery_stats(plt, k_val, rates, ds_pcts, dwl_pcts, d_pcts, out_dir, visualize)
-        _plot_path_lengths(plt, k_val, rates, avg_paths, max_paths, out_dir, visualize)
+        _plot_time_and_utilization(plt, k_val, rates, avg_deliveries, avg_utils, out_dir)
+        _plot_delivery_stats(plt, k_val, rates, ds_pcts, dwl_pcts, d_pcts, out_dir)
+        _plot_path_lengths(plt, k_val, rates, avg_paths, max_paths, out_dir)
 
     # --- New: for each failure rate create a plot with x axis = k and y = dropped % and avg path length
     failure_groups: Dict[float, List[Tuple[Optional[object], float, float]]] = {}
@@ -358,7 +328,15 @@ def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_d
             except Exception:
                 # skip invalid rate
                 continue
-            failure_groups.setdefault(rate_key, []).append((k_val, _to_float(d_pct), _to_float(avg_path)))
+            # Normalize k: only include numeric k values for the k-vs plots (skip unknown/non-numeric)
+            if k_val is None:
+                continue
+            try:
+                k_numeric = int(float(str(k_val)))
+            except Exception:
+                # skip non-numeric k values (e.g., 'unknown') for these plots
+                continue
+            failure_groups.setdefault(rate_key, []).append((k_numeric, _to_float(d_pct), _to_float(avg_path)))
 
     # For each failure rate, aggregate per-k and plot
     for rate_val, items in failure_groups.items():
@@ -375,21 +353,51 @@ def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_d
                     k_key = str(k_raw)
             by_k.setdefault(k_key, []).append((d_pct, avg_path))
 
-        ks_sorted = sorted(by_k.keys(), key=lambda x: float(x) if isinstance(x, (int, float)) or (isinstance(x, str) and x.replace('.', '', 1).isdigit()) else float(str(x)))
+        # sort keys: numeric ks first (by numeric value), then non-numeric keys lexicographically
+        def _k_sort_key(x: object):
+            # return tuple (is_non_numeric, numeric_value_or_0, str_representation)
+            if isinstance(x, (int, float)):
+                return (0, float(x), str(x))
+            if isinstance(x, str):
+                s = x.strip()
+                # treat 'unknown' as non-numeric explicitly
+                if s.lower() == 'unknown':
+                    return (1, 0.0, s)
+                # numeric-like string?
+                if s.replace('.', '', 1).lstrip('-').isdigit():
+                    try:
+                        return (0, float(s), s)
+                    except Exception:
+                        return (1, 0.0, s)
+                return (1, 0.0, s)
+            # fallback: try to parse as float from string
+            try:
+                f = float(str(x))
+                return (0, f, str(x))
+            except Exception:
+                return (1, 0.0, str(x))
+
+        ks_sorted = sorted(by_k.keys(), key=_k_sort_key)
         ks: List[float] = []
         dropped_avgs: List[float] = []
         avg_path_avgs: List[float] = []
         for k in ks_sorted:
+            # convert key to numeric; skip non-numeric keys (like 'unknown') because x-axis must be numeric
+            try:
+                k_num = float(k) if isinstance(k, (int, float)) else float(str(k))
+            except Exception:
+                # skip non-numeric k
+                continue
             vals = by_k[k]
             drops = [v[0] for v in vals]
             paths = [v[1] for v in vals]
-            ks.append(float(k) if isinstance(k, (int, float)) else _to_float(k))
+            ks.append(k_num)
             dropped_avgs.append(float(sum(drops)) / float(len(drops)) if drops else 0.0)
             avg_path_avgs.append(float(sum(paths)) / float(len(paths)) if paths else 0.0)
 
         # only plot if we have data
         if ks:
-            _plot_loss_and_path_vs_k(plt, rate_val, ks, dropped_avgs, avg_path_avgs, out_dir, visualize)
+            _plot_loss_and_path_vs_k(plt, rate_val, ks, dropped_avgs, avg_path_avgs, out_dir)
 
 
 __all__ = ['visualize_experiment_results']

@@ -2,8 +2,8 @@ from network_simulation.simulator_creator import SimulatorCreator
 
 
 class SimpleStarCreator(SimulatorCreator):
-    def __init__(self, visualize:bool, max_path:int, link_failure_percent:float=0.0):
-        super().__init__("simple star", max_path, visualize, link_failure_percent=link_failure_percent)
+    def __init__(self, visualize:bool, max_path:int, link_failure_percent:float=0.0, verbose:bool=False):
+        super().__init__("simple star", max_path, visualize, link_failure_percent=link_failure_percent, verbose=verbose)
         self._identifier = {"link failure percent": link_failure_percent}
 
     def create_topology(self):

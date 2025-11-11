@@ -6,14 +6,17 @@ from network_simulation.message import Message
 
 
 class Node(ABC):
-    def __init__(self, name: str, scheduler: DiscreteEventSimulator):
+    def __init__(self, name: str, scheduler: DiscreteEventSimulator, verbose:bool=False):
         self.name = name
         self.scheduler = scheduler
         self.inbox: List[Message] = []
+        self.verbose = verbose
 
     # called by others, to make this actor receive a message
     def post(self, message: Message) -> None:
-        message.path.append(self.name)
+        message.path_length += 1
+        if self.verbose:
+            message.verbose_path.append(self.name)
         self.inbox.append(message)
         self.scheduler.schedule_event(0.0, self.handle_message)
 

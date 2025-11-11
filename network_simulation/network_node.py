@@ -12,13 +12,14 @@ from network_simulation.node import Node
 from collections import defaultdict
 
 class NetworkNode(Node, ABC):
-    def __init__(self, name: str, max_connections: int, scheduler: DiscreteEventSimulator, max_path: int):
-        super().__init__(name, scheduler)
+    def __init__(self, name: str, max_connections: int, scheduler: DiscreteEventSimulator, max_path: int, verbose:bool=False):
+        super().__init__(name, scheduler, verbose=verbose)
         self.ports_to_links: Dict[int, Link] = {}  # mapping from port identifier to link
         self.ip_forward_table: Dict[str, List[int]] = defaultdict(list)
         self.max_connections = max_connections
         self.port_to_messages_passed: Dict[int, Set[int]] = defaultdict(set)
         self.max_path = max_path
+
 
     # port_id starts from 1
     def connect(self, port_id: int, link: Link):
@@ -64,7 +65,8 @@ class NetworkNode(Node, ABC):
 
 
     def handle_expired_message(self, message: Message):
-        logging.warning(f"{self.name} dropping expired message {message.id} to {message.five_tuple.dst_ip}")
+        if self.verbose:
+            logging.warning(f"{self.name} dropping expired message {message.id} to {message.five_tuple.dst_ip}")
         message.dropped = True
 
 
@@ -77,12 +79,14 @@ class NetworkNode(Node, ABC):
             arbitrary_port_id = random.sample(relevant_ports, 1)[0]
             link = self.ports_to_links[arbitrary_port_id]
             self.port_to_messages_passed[arbitrary_port_id].add(message.id)
-            logging.debug(
-                f"{self.name} sending lost message {message.id} for destination {message.five_tuple.dst_ip} through port {arbitrary_port_id} to link {link.name}")
+            if self.verbose:
+                logging.debug(
+                    f"{self.name} sending lost message {message.id} for destination {message.five_tuple.dst_ip} through port {arbitrary_port_id} to link {link.name}")
             link.transmit(message, self)
         else:
-            logging.warning(
-                f"{self.name} has no remaining ports to send lost message {message.id} to {message.five_tuple.dst_ip}, dropping message")
+            if self.verbose:
+                logging.warning(
+                   f"{self.name} has no remaining ports to send lost message {message.id} to {message.five_tuple.dst_ip}, dropping message")
             message.dropped = True
 
 
@@ -111,16 +115,19 @@ class NetworkNode(Node, ABC):
             port_index = hash(message.five_tuple) % len(best_masked_ports)
             best_port_id = best_masked_ports[port_index][0]
             if message.id in self.port_to_messages_passed[best_port_id]:
-                logging.warning(f"message {message.id} has already been transmitted through port {best_port_id}, possible routing loop, will be treated as lost")
+                if self.verbose:
+                    logging.warning(f"message {message.id} has already been transmitted through port {best_port_id}, possible routing loop, will be treated as lost")
                 message.lost = True
                 self.handle_lost_message(message)
             else:
                 self.port_to_messages_passed[best_port_id].add(message.id)
                 link = self.ports_to_links[best_port_id]
-                logging.debug(f"{self.name} sending for destination {dst_ip} through port {best_port_id} to link {link.name}")
+                if self.verbose:
+                    logging.debug(f"{self.name} sending for destination {dst_ip} through port {best_port_id} to link {link.name}")
                 link.transmit(message, self)
         else:
-            logging.warning(f"{self.name} has no routing entry for destination IP {dst_ip}, dropping message")
+            if self.verbose:
+                logging.warning(f"{self.name} has no routing entry for destination IP {dst_ip}, dropping message")
             message.dropped = True
 
     @property

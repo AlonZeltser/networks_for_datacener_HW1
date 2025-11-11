@@ -12,7 +12,7 @@ from network_simulation.visualizer import visualize_topology
 
 class SimulatorCreator(ABC):
     def __init__(self, name:str, max_path: int, visualize: bool = False,
-                 link_failure_percent: float = 0.0 ):
+                 link_failure_percent: float = 0.0, verbose: bool = False):
         """Base class for topology/scenario creators.
 
         Parameters:
@@ -29,10 +29,13 @@ class SimulatorCreator(ABC):
         self.switches: List[Switch] = []
         self.link_failure_percent = float(link_failure_percent)
         self.max_path = max_path
+        self.verbose = verbose
 
     def create_simulator(self) -> DiscreteEventSimulator:
         # Build topology
+        logging.debug("Creating topology...")
         self.create_topology()
+        logging.debug("topology created.")
 
         # After topology created, log a short summary of failed links (if any)
         if self.link_failure_percent and self.link_failure_percent > 0.0:
@@ -43,20 +46,21 @@ class SimulatorCreator(ABC):
                 logging.info("Link failure summary: 0 links marked as failed")
 
         # Build scenario (traffic, flows, etc.)
+        logging.debug("Creating scenario...")
         self.create_scenario()
+        logging.debug("Scenario created.")
 
-        # Optionally visualize after scenario creation
-        # Always create/save topology visualization; show depends on the visualize flag
-        try:
-            visualize_topology(self.name, self.entities, show=self._visualize)
-        except Exception:
-            # do not break simulator creation if visualization fails
-            logging.exception("visualize_topology failed")
+        if self._visualize:
+            try:
+                visualize_topology(self.name, self.entities, show=self._visualize)
+            except Exception:
+                # do not break simulator creation if visualization fails
+                logging.exception("visualize_topology failed")
 
         return self.simulator
 
     def create_host(self, name: str, ip_address: str) -> Host:
-        h = Host(name, self.simulator, ip_address, self.max_path)
+        h = Host(name, self.simulator, ip_address, self.max_path, verbose=self.verbose)
         assert name not in self.entities and name not in self.hosts
         self.entities[name] = h
         self.hosts[name] = h
@@ -64,7 +68,7 @@ class SimulatorCreator(ABC):
 
     def create_switch(self, name: str, ports_count: int) -> Switch:
         """Create a switch with the given number of ports."""
-        s = Switch(name, ports_count, self.simulator, self.max_path)
+        s = Switch(name, ports_count, self.simulator, self.max_path, verbose=self.verbose)
         assert name not in self.entities
         self.entities[name] = s
         self.switches.append(s)
@@ -101,7 +105,7 @@ class SimulatorCreator(ABC):
         messages_delivered_straight_count = len([m for m in self.simulator.messages if m.delivered and not m.lost])
         messages_delivered_although_lost_count = len([m for m in self.simulator.messages if m.delivered and m.lost])
         dropped_message_count = len([m for m in self.simulator.messages if m.dropped])
-        path_lengths = [length for length in (len(m.path) for m in self.simulator.messages if m.delivered)]
+        path_lengths = [m.path_length for m in self.simulator.messages if m.delivered]
         trans_times = [link.accumulated_transmitting_time for link in self.links]
         links_average_delivery_time = float(sum(trans_times)) / float(len(trans_times))
 

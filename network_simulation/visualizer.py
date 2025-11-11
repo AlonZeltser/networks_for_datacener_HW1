@@ -10,7 +10,7 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
     If `show` is True the function will attempt to display the figure; if False the figure
     will only be saved to disk (no GUI). The function returns the path to the saved file if saved, otherwise None.
     """
-    # Lazy import so visualization is optional. When suppression requested, reduce logging noise
+    # Lazy import so visualization is optional. Reduce logging noise from third-party libs.
     _logging = None
     _prev_levels = {}
     noisy_loggers = ['matplotlib', 'PIL', 'pillow', 'networkx', 'pyparsing', 'pydot', 'pydotplus', 'graphviz']
@@ -22,15 +22,11 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
                 _logging.getLogger(lname).setLevel(_logging.WARNING)
             except Exception:
                 _prev_levels[lname] = None
-        # If we're not showing, prefer a non-interactive backend to avoid GUI windows or blocking
-        if not show:
-            try:
-                import matplotlib as _mpl
-                _mpl.use('Agg')
-            except Exception:
-                pass
-        import networkx as nx
+        # Use a non-interactive backend so saving works in headless environments.
+        import matplotlib as mpl
+        mpl.use('Agg')
         import matplotlib.pyplot as plt
+        import networkx as nx
     except Exception:
         # restore logging levels if we changed them
         try:
@@ -156,7 +152,7 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
     fig_w = max(12, int(3 + widest * 1.5 * spacing))
     fig_h = max(8, int(2 + len(layers) * 2.0))
 
-    plt.figure(figsize=(fig_w, fig_h))
+    fig = plt.figure(figsize=(fig_w, fig_h))
     # increase font sizes so labels are readable
     base_font = max(8, int(8 * max(1.0, spacing)))
     # Build labels that include host IPs where available (host name on first line, IP on second)
@@ -264,50 +260,33 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
         pass
 
     saved_path = None
-    saved = False
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    path_selected = False
     ver_index = 1
-    path:str = ""
-    while not path_selected:
-        path = f"./results/topology_{topop_name}_{timestamp}_{ver_index}.png"
-        if os.path.exists(path): # when tests in tests-sequence is really fast...
-            ver_index += 1
-        else:
-            path_selected = True
+    # choose a non-colliding path
+    while True:
+        rel_path = os.path.join('results', f"topology_{topop_name}_{timestamp}_{ver_index}.png")
+        if not os.path.exists(rel_path):
+            break
+        ver_index += 1
     try:
         # ensure results directory exists
         try:
-            os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+            os.makedirs(os.path.dirname(rel_path) or '.', exist_ok=True)
         except Exception:
             pass
-        plt.savefig(path, bbox_inches='tight')
-        # use absolute path so opening the file doesn't depend on the process CWD
+        # save using absolute path so opening the file doesn't depend on CWD
+        saved_path = os.path.abspath(rel_path)
         try:
-            saved_path = os.path.abspath(path)
-        except Exception:
-            saved_path = path
-        logging.info(f"Topology saved to {saved_path}")
+            fig.savefig(saved_path, bbox_inches='tight')
+            logging.info(f"Topology saved to {saved_path}")
+            # Intentionally do NOT open the saved image with an external viewer to avoid
+            # blocking the application or creating side effects. The `show` parameter
+            # is kept for API compatibility but is ignored here.
+        except Exception as e:
+            logging.info(f"Topology failed to save into {saved_path}: {e}")
+            saved_path = None
     except Exception:
-        logging.info(f"Topology failed to save into  {path}")
-
-    # Inform if the file exists on disk; rely on matplotlib's plt.show() to display the image
-    try:
-        if saved_path:
-            if os.path.exists(saved_path):
-                logging.info(f"Saved topology file is present: {saved_path}")
-            else:
-                logging.warning(f"Saved topology file not found after save attempt: {saved_path}")
-    except Exception:
-        pass
-
-    # Display only if requested
-    if show:
-        try:
-            plt.show()
-        except Exception:
-            # If show fails (headless), just continue
-            pass
+        saved_path = None
 
     # restore logging levels if they were modified
     try:
@@ -320,5 +299,11 @@ def visualize_topology(topop_name: str, entities: Dict[Any, Any], spacing: float
                     pass
     except Exception:
         pass
-    plt.close()
+    try:
+        plt.close(fig)
+    except Exception:
+        try:
+            plt.close()
+        except Exception:
+            pass
     return saved_path
