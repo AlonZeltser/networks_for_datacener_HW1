@@ -192,7 +192,40 @@ I chose that to simulate real world uneven loads.
 - Below are the histograms showing the distribution of received-packet counts per host for runs with `link-failure = 0.0`:
 ![k=12, link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_12_lf_0.0_hosts_received_hist.png)![k=24, link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_24_lf_0.0_hosts_received_hist.png)![k=48, link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_48_lf_0.0_hosts_received_hist.png)
 
-- As link failure rates increased, packet loss rates rose, but the network demonstrated resilience through EC
+### Performance when no link failures occur 
+- With no link failures, the delivery rate was nearly 100%.
+- The paths lengths as were about 6: 3 steps up to a flow dependent core switch (since ECMP is used by hashing the message),
+and 3 steps down using a deterministic subnet mapping (in real life: static routing table for core to aggregation and aggregation to edge, and  L2 ARP for edge to destination host)
+- Below is the performance summary for k=12, 24, 48 with 0% link failure:
+![Performance Summary k=12,24,48 link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_failure_0.0_k_stats.png)
+
+### Link Failure Impact 
+- As link failure rates increased, the delivery performance degraded somewhat. Comparing 12, 24, and 48, we can see that the larger the network, the smaller the impact (to some extent).
+- The simulator's ECMP routing and loop avoidance mechanisms helped mitigate the impact of failures, but some packets were inevitably dropped when no rout was available at the edge-host level.
+- Below are performance summaries for k=12, 24, 48 with 1%, 5%, and 10% link failure:  
+![Performance Summary k=12 link-failure 1.0,5.0,10.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_failure_1.0_k_stats.png)![Performance Summary k=24 link-failure 1.0,5.0,10.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_failure_5.0_k_stats.png)![Performance Summary k=48 link-failure 1.0,5.0,10.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_failure_10.0_k_stats.png)
+- If we check the dropped packet and the "lost but recovered" packets, we can see that as the link failure rate increases very slowly, which indicates that the Fat-Tree network is fairly resilient due to its multiple paths, ECMP and my loop avoidance mechanism.
+A reasonable failure rate would be 1%-5%, which shows that the system overall will slow (retransmitting) but won't collapse.
+![Lost and Dropped Packets 12](results_from_demo_run/fat_tree_performance_experiment/results/experiments/experiment_k_12_delivery_stats.png)  
+![Lost and Dropped Packets 24](results_from_demo_run/fat_tree_performance_experiment/results/experiments/experiment_k_24_delivery_stats.png)  
+![Lost and Dropped Packets 48](results_from_demo_run/fat_tree_performance_experiment/results/experiments/experiment_k_48_delivery_stats.png)
+- Bandwidth and TPT: on this metric, the system shows mild degradation as the link failure rate increases, since more packets are dropped or made much larger path. A longer path would  occur also in dynamic routing based system.   
+Although some extreme long paths created, the overall throughput (average length) decresed insignificantly. This indicates that the Fat-Tree topology is effective in maintaining performance, although some cases (applications) will still suffer. 
+Below we can see the throughput and bandwidth for k=12, 24, 48 with varying link failure rates:  
+![Path length max and avg 12](results_from_demo_run/fat_tree_performance_experiment/results/experiments/experiment_k_12_path_lengths.png)  
+![Path length max and avg 24](results_from_demo_run/fat_tree_performance_experiment/results/experiments/experiment_k_24_path_lengths.png)  
+![Path length max and avg 48](results_from_demo_run/fat_tree_performance_experiment/results/experiments/experiment_k_48_path_lengths.png)
+- Inspecting the link behavior, we can see that the base case was overall not very loaded. This can be a result of the scheduling and the uneven distribution of destinations.
+As the link failure rate increases, the remaining links became more loaded, as expected.
+Below are the link load distributions for k=12, 24, 48 with varying link failure rates:  
+![Link load k=12](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_12_links_load.png)  
+![Link load k=24](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_24_links_load.png)  
+![Link load k=48](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_48_links_load.png)
+
+## 📝 Conclusions
+- The Fat-Tree network simulator effectively models packet delivery in a hierarchical data-center topology.
+- The simulator demonstrates high delivery rates under normal conditions and reasonable resilience to link failures.
+- I would inspect also higher load scenarios, as the overall utilization on the links was not high, and also check the ideal-but-not-realistic case of single source-destination constant pairs.
 
 
 ## 📚 References
@@ -203,7 +236,8 @@ I chose that to simulate real world uneven loads.
 - [Mininet](http://mininet.org/)
 - [Wikipedia: subnets and subnetting](https://en.wikipedia.org/wiki/Subnet)
 - [Wikipedia: ECMP](https://en.wikipedia.org/wiki/Equal-cost_multi-path_routing)
+- [chatGPT-5]: attached documentation of usage
 
 ## ✍️ Author
 **Alon Zeltser**
-Date: 5.11.2025
+Date: 12.11.2025
