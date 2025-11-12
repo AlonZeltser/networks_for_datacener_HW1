@@ -138,17 +138,26 @@ Parameters list:
 ```bash
 python main.py --help
 
+usage: main.py [-h] [-t T] [-k K [K ...]] [-visualize]
+               [-link-failure LINK_FAILURE [LINK_FAILURE ...]] [-verbose]
+
+Network simulator runner
+
 optional arguments:
   -h, --help            show this help message and exit
-  -t T                  Type of topology: fat-tree, hsh, simple-star. Default: fat-tree
+  -t T                  Type of topology: fat-tree, hsh (simplest, for demo),
+                        simple-star (simple tree with 2 levels, for demo and
+                        debugging)
   -k K [K ...]          (fat-tree only) list of number of ports per switch
-                        (must be even). Default: 4
-  -v                    Enable topology on screen visualization (single
+                        (must be even)
+  -visualize            Enable topology on screen visualization (single
                         boolean flag). If not set, visualizations are still
-                        saved to files. Default: False
+                        saved to files.
   -link-failure LINK_FAILURE [LINK_FAILURE ...]
                         list of probability of links to fail in each test.
-                        Fraction (0-100) of links to fail. Default: [0]
+                        Fraction (0-100) of links to fail
+  -verbose              Enable verbose logging output to console
+
 ```
 **example 1:** running fat-tree architecture with k=4, 6, 8, on-screen visualization, link failures of 0%, 5%, 10%:
 ```bash
@@ -166,7 +175,7 @@ python main.py -t simple-star -link-failure 20
 
 ## 🧪 5. Tests and Scenarios
 - There were many scenarios tested during the development phase.
-- For network performance analysis I focused on realistic Fat-Tree scenarios.
+- For network high-load performance analysis, I focused on realistic Fat-Tree scenarios.
 - The k values tested are 12, 24, 48.
 - Link failure rates tested: 0%, 1%, 5%, 10%. The higher values are for stress testing and finding trends, since less realistic.-
 - The number of messages sent from each host to another is set to 5.
@@ -174,7 +183,16 @@ python main.py -t simple-star -link-failure 20
 
 
 ## 📊 6. Results Summary
-### TBD
+
+### General Observations
+- The simulator successfully modeled packet delivery across the Fat-Tree topology.
+- Under normal conditions (0% link failure), nearly all packets were delivered successfully with minimal latency.
+- Since the target-server selection is random, some hosts received more packets than others, as shown in the histogram. 
+I chose that to simulate real world uneven loads.
+- Below are the histograms showing the distribution of received-packet counts per host for runs with `link-failure = 0.0`:
+![k=12, link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_12_lf_0.0_hosts_received_hist.png)![k=24, link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_24_lf_0.0_hosts_received_hist.png)![k=48, link-failure 0.0](results_from_demo_run/fat_tree_performance_experiment/results/experiments/exp_k_48_lf_0.0_hosts_received_hist.png)
+
+- As link failure rates increased, packet loss rates rose, but the network demonstrated resilience through EC
 
 
 ## 📚 References
