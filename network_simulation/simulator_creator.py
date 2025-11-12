@@ -41,7 +41,7 @@ class SimulatorCreator(ABC):
         if self.link_failure_percent and self.link_failure_percent > 0.0:
             failed = [l.name for l in self._links if getattr(l, 'failed', False)]
             if failed:
-                logging.info(f"Link failure summary: {len(failed)} links marked as failed: {failed}")
+                logging.info(f"Link failure summary: {len(failed)} links marked as failed")
             else:
                 logging.info("Link failure summary: 0 links marked as failed")
 
@@ -126,7 +126,8 @@ class SimulatorCreator(ABC):
             'links average delivery time': links_average_delivery_time,
             'link average utilization': links_average_delivery_time / total_time,
             'link_min_bytes_transmitted': min(link.accumulated_bytes_transmitted for link in self.links),
-            'link_max_bytes_transmitted': max(link.accumulated_bytes_transmitted for link in self.links)
+            'link_max_bytes_transmitted': max(link.accumulated_bytes_transmitted for link in self.links),
+            'hosts received counts':  [host.received_count for host in self.hosts.values()]
         }
         return {'topology summary': topology_summary,
                 'parameters summary': parameters_summary,

@@ -52,22 +52,71 @@ ChatGPT doumentation will be published as part of final submission.
 | `Message` / `Packet`  | Data unit that is sent between components. In this implementation also track its rout, timing etc.       |
 | `SimulatorCreator`    | Base class for creating instances of simulation (e.g. Fat Tree). Takes car also on results and summaries |
 
-### 🕸️ Design Highlights: Network
+### 🕸️ Design Highlights: Network Routing
 - Each port is set with a subnet
 - Routing is done to the "narrowest" subnet match
 - ECMP implemented by random choice among equal-cost paths
 - Loop is tracked: each port remembers the packets that went through it, and avoid re-sending them
 - If a packet is found looped, it is marked as lost and a trial starts to send it to different ports, even one that don't match the subnet. This solves the "non trivial core" path, in case an aggregation-edge link is down.
 - If a packet has no routing (either by subnet or by lost-procedure), it is marked as dropped and gets out of the game.
+- Each packet holds information about the creation time and number of hops. If TTL or number of hops goes beyond a threshold (hard coded) then the message is dropped.
 
+### 🕸️ Design Highlights: Experiment
+- Each host sends n times packets to randomly chosen n other hosts
+- The time interval between each host's packet is the estimated time to send the packet on a link
+- Latest version shows how unbalanced was the run by showing a histogram of number of hosts per each received number
+- The system ran up to k=48 with incereasing pycharm memory limits to 8GB. 
+- Verbose and Visualize options available but practically can work up to k=16
  
-### 📦 Design Highlights: SW
+### 📦 Design Highlights: SW Architecture
 - Packages split over functionalities
 - Object-oriented, real-time simulating implementation.
 - Event queue ensures deterministic simulation order.
 - Fat Tree: Configurable `k` parameter (controls pods, switch count, and hosts).
 - Forwarding tables auto-generated per Al-Fares conventions (TBD)
 - Failure injection for testing robustness (TBD)
+### update before final commit
+
+## Project structure
+
+```
+networks_for_datacener_HW1/
+├── `README.md`
+├── `main.py`
+├── `requirements.txt` (TBD)
+├── `des/`
+│   ├── `__init__.py`
+│   ├── `des.py`
+│   └── `priority_queue.py`
+├── `network_simulation/`
+│   ├── `__init__.py`
+│   ├── `experiment_visualizer.py`
+│   ├── `visualizer.py`
+│   ├── `simulator_creator.py`
+│   ├── `host.py`
+│   ├── `switch.py`
+│   ├── `link.py`
+│   ├── `message.py`
+│   ├── `network_node.py`
+│   ├── `node.py`
+│   ├── `ip.py`
+│   └── (internal helpers)
+├── `scenarios/`
+│   ├── `__init__.py`
+│   ├── `fat_tree_topo_creator.py`
+│   ├── `hsh_creator.py`
+│   └── `simple_star_creator.py`
+├── `statistics/`
+│   ├── `__init__.py`
+│   └── (stats helpers)
+├── `results/` (generated output)
+│   └── `experiments/`
+│       ├── `exp_k_4_links_load.png`
+│       └── `...`
+└── `unit_tests/`
+    ├── `des_tests/`
+    └── `ip_tests/`
+```
 
 ## ▶️ How to Run
 
@@ -116,44 +165,17 @@ python main.py -t simple-star -link-failure 20
 - After completion, results summaries and visualizations will be saved in the `results/` directory.
 
 ## 🧪 5. Tests and Scenarios
-
-
-### TBD 
+- There were many scenarios tested during the development phase.
+- For network performance analysis I focused on realistic Fat-Tree scenarios.
+- The k values tested are 12, 24, 48.
+- Link failure rates tested: 0%, 1%, 5%, 10%. The higher values are for stress testing and finding trends, since less realistic.-
+- The number of messages sent from each host to another is set to 5.
+- The results are saved under results_from_demo_run/fat_tree_performance_experiments/
 
 
 ## 📊 6. Results Summary
 ### TBD
 
-## 🗂️ 7. Project Structure
-### update before final commit
-
-```
-networks_for_datacener_HW1/
-├── README.md
-├── main.py
-├── requirements.txt (TBD)
-├── des/
-│   ├── __init__.py
-│   ├── des.py
-│   ├── priority_queue.py
-├── netowrk_simulation/
-│   ├── __init__.py
-│   ├── Host
-│   ├── ip
-│   ├── link
-│   ├── message
-│   ├── netowrk_node
-│   ├── node
-│   ├── switch
-├── scenarios/
-│   ├── fat_tree_topo_creator.py
-│   ├── hsh_creator.py
-│   ├── simulator_creator.py
-├── statistics/
-│   ├── tbd
-├── unit_tests/
-│   ├── tbd
-```
 
 ## 📚 References
 - M. Al-Fares, A. Loukissas, A. Vahdat,  
@@ -167,4 +189,3 @@ networks_for_datacener_HW1/
 ## ✍️ Author
 **Alon Zeltser**
 Date: 5.11.2025
- 

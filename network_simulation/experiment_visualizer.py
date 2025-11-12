@@ -3,6 +3,7 @@ import math
 from typing import Dict, Any, List, Tuple, Optional
 import matplotlib as mpl
 from types import SimpleNamespace
+from network_simulation.visualizer import plot_hosts_received_histogram
 
 
 def _sanitize_filename(name: str) -> str:
@@ -398,6 +399,26 @@ def visualize_experiment_results(results: List[Dict[str, Dict[str, Any]]], out_d
         # only plot if we have data
         if ks:
             _plot_loss_and_path_vs_k(plt, rate_val, ks, dropped_avgs, avg_path_avgs, out_dir)
+
+    # Per-run histograms: for each original run in the provided results list, if hosts received counts exist,
+    # save a histogram. We build a simple run name from available parameters (k and link failure percent).
+    for run in results:
+        params = _get_parameters(run)
+        stats = _get_run_stats(run)
+        hosts_received = stats.get('hosts received counts') if isinstance(stats, dict) else None
+        # accept either dict mapping host->count OR a sequence/list of counts
+        if hosts_received and isinstance(hosts_received, (dict, list, tuple)):
+            # construct short run name
+            k = params.get('k') if isinstance(params, dict) else None
+            lf = params.get('link_failure_percent') if isinstance(params, dict) else None
+            if lf is None:
+                lf = params.get('link failure percent') if isinstance(params, dict) else None
+            run_name = f"k={k}_lf={lf}" if k is not None or lf is not None else "run"
+            try:
+                plot_hosts_received_histogram(hosts_received, run_name, out_dir=out_dir)
+            except Exception:
+                # do not let histogram saving break the overall visualization process
+                pass
 
 
 __all__ = ['visualize_experiment_results']

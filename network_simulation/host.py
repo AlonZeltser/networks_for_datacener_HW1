@@ -16,6 +16,7 @@ class Host(NetworkNode):
     def __init__(self, name: str, scheduler: DiscreteEventSimulator, ip_address: str, max_path: int, verbose:bool=False):
         super().__init__(name, 1, scheduler, max_path, verbose=verbose)
         self._ip_address: str = ip_address
+        self._received_count: int = 0
 
     @property
     def ip_address(self) -> str:
@@ -40,6 +41,11 @@ class Host(NetworkNode):
     def on_message(self, message: Message):
         message.delivered = True
         message.arrival_time = self.scheduler.get_current_time()
+        self._received_count += 1
         if self.verbose:
             logging.debug(f"Received message: {message}"
                 f"[{self.scheduler.get_current_time():.6f}s] Host {self.name} received message {message.id} from {message.sender_id} with content: {message.content}")
+
+    @property
+    def received_count(self) -> int:
+        return self._received_count

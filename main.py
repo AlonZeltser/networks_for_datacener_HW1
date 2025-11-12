@@ -79,7 +79,7 @@ def main(argv):
         logging.info(f"Simulation finished. collecting results")
         results = creator.get_results()
         stats = results['run statistics']
-        message = "\n".join(f"{k}: {v}" for k, v in stats.items())
+        message = "\n".join(f"{k}: {v}" for k, v in stats.items() if not isinstance(v, List))
         logging.info(f"Simulation stats: \n {message}")
         aggregated_results.append(results)
 
